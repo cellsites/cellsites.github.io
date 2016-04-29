@@ -34,7 +34,7 @@ function initMap() {
         scaleControl: true
     });
     var ctaLayer = new google.maps.KmlLayer({
-        url: 'http://cellsites.co.nf/sasktel_sites.kmz'
+        url: 'http://cellsites.github.io/sasktel_sites.kmz'
     });
     ctaLayer.setMap(map);
     // Create the DIV to hold the control and call the CenterControl()
