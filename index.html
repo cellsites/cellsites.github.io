@@ -3,7 +3,6 @@
   <head>
     <meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
     <meta charset="utf-8" />
-	<script type="text/javascript" src="jquery.js"></script>
     <title>SaskTel Cell Sites</title>
     <link rel="StyleSheet" href="http://cellsites.github.io/cellsites.css" TYPE="text/css" />
     <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?sensor=false&libraries=places"></script>
@@ -11,7 +10,7 @@
     <script type="text/javascript" src="ruler.js"></script>
     <script type="text/javascript" src="cellsites.js"></script>
   </head>
-  <body>
+  <body onload="initMap();">
     <form>
       <input id="pac-input" class="controls" type="text" placeholder="Search Box" />
     </form>
