@@ -31,39 +31,29 @@ function addruler() {
 	});
 	rulerpoly.setMap(map);
 
-	ruler1label.set('text',google.maps.geometry.spherical.computeDistanceBetween(ruler1.getPosition(),ruler2.getPosition()));
-	ruler2label.set('text',google.maps.geometry.spherical.computeDistanceBetween(ruler1.getPosition(),ruler2.getPosition()));
+	ruler1label.set('text',distandbear(ruler1.getPosition(),ruler2.getPosition()));
+	ruler2label.set('text',distandbear(ruler2.getPosition(),ruler1.getPosition()));
 
 
 	google.maps.event.addListener(ruler1, 'drag', function() {
 		rulerpoly.setPath([ruler1.getPosition(), ruler2.getPosition()]);
-		ruler1label.set('text',google.maps.geometry.spherical.computeDistanceBetween(ruler1.getPosition(),ruler2.getPosition()));
-		ruler2label.set('text',google.maps.geometry.spherical.computeDistanceBetween(ruler1.getPosition(),ruler2.getPosition()));
+		ruler1label.set('text',distandbear(ruler1.getPosition(),ruler2.getPosition()));
+		ruler2label.set('text',distandbear(ruler2.getPosition(),ruler1.getPosition()));
 	});
 
 	google.maps.event.addListener(ruler2, 'drag', function() {
 		rulerpoly.setPath([ruler1.getPosition(), ruler2.getPosition()]);
-		ruler1label.set('text',google.maps.geometry.spherical.computeDistanceBetween(ruler1.getPosition(),ruler2.getPosition()));
-		ruler2label.set('text',google.maps.geometry.spherical.computeDistanceBetween(ruler1.getPosition(),ruler2.getPosition()));
+		ruler1label.set('text',distandbear(ruler1.getPosition(),ruler2.getPosition()));
+		ruler2label.set('text',distandbear(ruler2.getPosition(),ruler1.getPosition()));
 	});
 
 }
 
 
-function distance(pos1,pos2) {
-	var lat1 = pos1.lat();
-	var lon1 = pos1.lng();
-	var lat2 = pos2.lat();
-	var lon2 = pos2.lng();
-	var R = 6371; // km (change this constant to get miles)
-	var dLat = (lat2-lat1) * Math.PI / 180;
-	var dLon = (lon2-lon1) * Math.PI / 180; 
-	var a = Math.sin(dLat/2) * Math.sin(dLat/2) +
-		Math.cos(lat1 * Math.PI / 180 ) * Math.cos(lat2 * Math.PI / 180 ) * 
-		Math.sin(dLon/2) * Math.sin(dLon/2); 
-	var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a)); 
-	var d = R * c;
-	if (d>1) return Math.round(d)+"km / 310deg";
-	else if (d<=1) return Math.round(d*1000)+"m / 21deg";
+function distandbear(pos1,pos2) {
+	var d = google.maps.geometry.spherical.computeDistanceBetween(pos1,pos2);
+	var h = google.maps.geometry.spherical.computeHeading(pos1,pos2);
+	if (d>1000) return Math.round(d/1000)+"km / "+Math.round(h)+"deg";
+	else if (d<=1000) return Math.round(d)+"m / "+Math.round(h)+"deg";
 	return d;
 }
