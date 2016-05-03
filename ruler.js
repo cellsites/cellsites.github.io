@@ -18,10 +18,6 @@ function addruler() {
 		map: map,
 		draggable: true
 	});
-	var ruler1label = new Label({ map: map });
-	var ruler2label = new Label({ map: map });
-	ruler1label.bindTo('position', ruler1, 'position');
-	ruler2label.bindTo('position', ruler2, 'position');
 
 	var rulerpoly = new google.maps.Polyline({
 		path: [ruler1.position, ruler2.position] ,
@@ -30,6 +26,12 @@ function addruler() {
 		strokeWeight: 7
 	});
 	rulerpoly.setMap(map);
+
+	var ruler1label = new Label({ map: map });
+	var ruler2label = new Label({ map: map });
+	ruler1label.bindTo('position', ruler1, 'position');
+	ruler2label.bindTo('position', ruler2, 'position');
+
 
 	ruler1label.set('text',distandbear(ruler1.getPosition(),ruler2.getPosition()));
 	ruler2label.set('text',distandbear(ruler2.getPosition(),ruler1.getPosition()));
