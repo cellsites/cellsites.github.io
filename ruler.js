@@ -31,26 +31,30 @@ function addruler() {
 	});
 	rulerpoly.setMap(map);
 
-	ruler1label.set('text',google.maps.geometry.spherical.computeDistanceBetween(ruler1.getPosition(),ruler2.getPosition()));
-	ruler2label.set('text',google.maps.geometry.spherical.computeDistanceBetween(ruler1.getPosition(),ruler2.getPosition()));
+	ruler1label.set('text',distance(ruler1.getPosition(),ruler2.getPosition()));
+	ruler2label.set('text',distance(ruler1.getPosition(),ruler2.getPosition()));
 
 
 	google.maps.event.addListener(ruler1, 'drag', function() {
 		rulerpoly.setPath([ruler1.getPosition(), ruler2.getPosition()]);
-		ruler1label.set('text',google.maps.geometry.spherical.computeDistanceBetween(ruler1.getPosition(),ruler2.getPosition()));
-		ruler2label.set('text',google.maps.geometry.spherical.computeDistanceBetween(ruler1.getPosition(),ruler2.getPosition()));
+		ruler1label.set('text',distance(ruler1.getPosition(),ruler2.getPosition()));
+		ruler2label.set('text',distance(ruler1.getPosition(),ruler2.getPosition()));
 	});
 
 	google.maps.event.addListener(ruler2, 'drag', function() {
 		rulerpoly.setPath([ruler1.getPosition(), ruler2.getPosition()]);
-		ruler1label.set('text',google.maps.geometry.spherical.computeDistanceBetween(ruler1.getPosition(),ruler2.getPosition()));
-		ruler2label.set('text',google.maps.geometry.spherical.computeDistanceBetween(ruler1.getPosition(),ruler2.getPosition()));
+		ruler1label.set('text',distance(ruler1.getPosition(),ruler2.getPosition()));
+		ruler2label.set('text',distance(ruler1.getPosition(),ruler2.getPosition()));
 	});
 
 }
 
 
-function distance(lat1,lon1,lat2,lon2) {
+function distance(pos1,pos2) {
+	var lat1 = pos1.lat();
+	var lon1 = pos1.lng();
+	var lat2 = pos2.lat();
+	var lon2 = pos2.lng();
 	var R = 6371; // km (change this constant to get miles)
 	var dLat = (lat2-lat1) * Math.PI / 180;
 	var dLon = (lon2-lon1) * Math.PI / 180; 
@@ -59,7 +63,7 @@ function distance(lat1,lon1,lat2,lon2) {
 		Math.sin(dLon/2) * Math.sin(dLon/2); 
 	var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a)); 
 	var d = R * c;
-	if (d>1) return Math.round(d)+"km";
-	else if (d<=1) return Math.round(d*1000)+"m";
+	if (d>1) return Math.round(d)+"km / 310deg";
+	else if (d<=1) return Math.round(d*1000)+"m / 21deg";
 	return d;
 }
