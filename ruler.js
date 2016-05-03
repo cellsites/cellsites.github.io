@@ -53,6 +53,7 @@ function addruler() {
 function distandbear(pos1,pos2) {
 	var d = google.maps.geometry.spherical.computeDistanceBetween(pos1,pos2);
 	var h = google.maps.geometry.spherical.computeHeading(pos1,pos2);
+	if (h<0) h = 360+h;
 	if (d>1000) return Math.round(d/1000)+"km / "+Math.round(h)+"deg";
 	else if (d<=1000) return Math.round(d)+"m / "+Math.round(h)+"deg";
 	return d;
