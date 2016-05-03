@@ -31,20 +31,20 @@ function addruler() {
 	});
 	rulerpoly.setMap(map);
 
-	ruler1label.set('text',distance(ruler1.getPosition(),ruler2.getPosition()));
-	ruler2label.set('text',distance(ruler1.getPosition(),ruler2.getPosition()));
+	ruler1label.set('text',google.maps.geometry.spherical.computeDistanceBetween(ruler1.getPosition(),ruler2.getPosition()));
+	ruler2label.set('text',google.maps.geometry.spherical.computeDistanceBetween(ruler1.getPosition(),ruler2.getPosition()));
 
 
 	google.maps.event.addListener(ruler1, 'drag', function() {
 		rulerpoly.setPath([ruler1.getPosition(), ruler2.getPosition()]);
-		ruler1label.set('text',distance(ruler1.getPosition(),ruler2.getPosition()));
-		ruler2label.set('text',distance(ruler1.getPosition(),ruler2.getPosition()));
+		ruler1label.set('text',google.maps.geometry.spherical.computeDistanceBetween(ruler1.getPosition(),ruler2.getPosition()));
+		ruler2label.set('text',google.maps.geometry.spherical.computeDistanceBetween(ruler1.getPosition(),ruler2.getPosition()));
 	});
 
 	google.maps.event.addListener(ruler2, 'drag', function() {
 		rulerpoly.setPath([ruler1.getPosition(), ruler2.getPosition()]);
-		ruler1label.set('text',distance(ruler1.getPosition(),ruler2.getPosition()));
-		ruler2label.set('text',distance(ruler1.getPosition(),ruler2.getPosition()));
+		ruler1label.set('text',google.maps.geometry.spherical.computeDistanceBetween(ruler1.getPosition(),ruler2.getPosition()));
+		ruler2label.set('text',google.maps.geometry.spherical.computeDistanceBetween(ruler1.getPosition(),ruler2.getPosition()));
 	});
 
 }
