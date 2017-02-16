@@ -37,6 +37,56 @@ function initMap() {
 		url: 'http://cellsites.github.io/sasktel_sites.kmz'
 	});
 	ctaLayer.setMap(map);
+	ctaLayer.addListener('rightclick', function(kmlEvent) {
+		var position = kmlEvent.position;
+		showContextMenu(position);
+	});
+	function showContextMenu(currrentLatLng) {
+		var projection;
+		var contextmenuDir;
+		projection = map.getProjection();
+		$('.contextmenu').remove();
+		contextmenuDir = document.createElement("div");
+		contextmenuDir.className = 'contextmenu';
+		contextmenuDir.innerHTML = '<a id="menu1"><div class="context">menu item 1</div></a>'
+									+ '<a id="menu2"><div class="context">menu item 2</div></a>'
+		$(map.getDiv()).append(contextmenuDir);
+		setMenuXY(currentLatLng);
+		contextmenuDir.style.visibility = "visible";
+	}
+	function getCanvasXY(currentLatLng) {
+		var scale = Math.pow(2, map.getZoom());
+		var nw = new google.maps.LatLng(
+			map.getBounds().getNorthEast().lat(),
+			map.getBounds().getSouthWest().lng()
+		};
+		var worldCoordinateNW = map.getProjection().fromLatLngToPoint(nw);
+		var worldCoordinate = map.getProjection().fromLatLngToPoint(currentLatLng);
+		var currentLatLngOffset = new google.maps.Point(
+			Math.floor((worldCoordinate.x - worldCoordinateNW.x) * scale),
+			Math.floor((worldCoordinate.y - worldCoordinateNW.y) * scale)
+		};
+		return currentLatLngOffset;
+	}
+	function setMenuXY(currentLatLng) {
+		var mapWidth = $('#map_canvas').width();
+		var mapHeight = $('#map_canvas').height();
+		var menuWidth = $('.contextmenu').width();
+		var menuHeight = $('.contextmenu').height();
+		var clickedPosition = getCanvasXY(currentLatLng);
+		var x = clickedPosition.x;
+		var y = clickedPosition.y;
+		
+		if((mapWidth - x) < menuWidth)
+			x = x - menuWidth;
+		if((mapHeight - y) < menuHeight)
+			y = y - menuHeight;
+		
+		$('.contextmenu').css('left',x );
+		$('.conetxtmenu').css('top',y );
+	}
+		
+		 
 	// Create the DIV to hold the control and call the CenterControl()
 	// constructor passing in this DIV.
 	var rulerControlDiv = document.createElement('div');
