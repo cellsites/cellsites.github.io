@@ -42,7 +42,7 @@ function initMap() {
 		var position = kmlEvent.position;
 		showContextMenu(position);
 	});
-	function showContextMenu(currrentLatLng) {
+	function showContextMenu(currentLatLng) {
 		var projection;
 		var contextmenuDir;
 		projection = map.getProjection();
