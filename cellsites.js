@@ -31,13 +31,14 @@ function initMap() {
 	var markers = [];
 	map = new google.maps.Map(document.getElementById('map'), {
 		mapTypeId: google.maps.MapTypeId.ROADMAP,
-		scaleControl: true
+		scaleControl: true,
+		suppressInfoWindows: true
 	});
 	var ctaLayer = new google.maps.KmlLayer({
 		url: 'http://cellsites.github.io/sasktel_sites.kmz'
 	});
 	ctaLayer.setMap(map);
-	ctaLayer.addListener('rightclick', function(kmlEvent) {
+	ctaLayer.addListener('click', function(kmlEvent) {
 		var position = kmlEvent.position;
 		showContextMenu(position);
 	});
