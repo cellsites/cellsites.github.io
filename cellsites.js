@@ -59,13 +59,13 @@ function initMap() {
 		var nw = new google.maps.LatLng(
 			map.getBounds().getNorthEast().lat(),
 			map.getBounds().getSouthWest().lng()
-		};
+		);
 		var worldCoordinateNW = map.getProjection().fromLatLngToPoint(nw);
 		var worldCoordinate = map.getProjection().fromLatLngToPoint(currentLatLng);
 		var currentLatLngOffset = new google.maps.Point(
 			Math.floor((worldCoordinate.x - worldCoordinateNW.x) * scale),
 			Math.floor((worldCoordinate.y - worldCoordinateNW.y) * scale)
-		};
+		);
 		return currentLatLngOffset;
 	}
 	function setMenuXY(currentLatLng) {
