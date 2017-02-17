@@ -107,8 +107,8 @@ function doShowSectors(kmlEvent,map) {
 	var $datarows = $structure.nextAll('tr');
 	$datarows.each(function(i){
 		$(this).find('td').each(function(index,element) {
+			console.log(i + ' - ' + structure[index] + ' - ' + $(element).text());
 			azimuths[i][structure[index]] = $(element).text();
-			console.log(i + ' - ' + structure[index] + ' - ' + $element.text());
 		});
 	});
 	
