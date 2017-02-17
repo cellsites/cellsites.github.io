@@ -39,7 +39,7 @@ function showContextMenu(currentLatLng) {
 	$(map.getDiv()).append(contextmenuDir);
 	setMenuXY(currentLatLng);
 	contextmenuDir.style.visibility = "visible";
-	console.log(currentLatLng);
+	console.log(currentLatLng.lat() + ' - ' + currentLatLng.lng());
 }
 function getCanvasXY(currentLatLng) {
 	var scale = Math.pow(2, map.getZoom());
@@ -63,12 +63,13 @@ function setMenuXY(currentLatLng) {
 	var clickedPosition = getCanvasXY(currentLatLng);
 	var x = clickedPosition.x;
 	var y = clickedPosition.y;
-	console.log(x + ' - ' + y);
 	
 	if((mapWidth - x) < menuWidth)
 		x = x - menuWidth;
 	if((mapHeight - y) < menuHeight)
 		y = y - menuHeight;
+
+	console.log(x + ' - ' + y);
 	
 	$('.contextmenu').css('left',x );
 	$('.conetxtmenu').css('top',y );
