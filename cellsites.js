@@ -48,7 +48,7 @@ function showContextMenu(kmlEvent) {
 	
 	setMenuXY(kmlEvent.latLng);
 	contextmenuDir.style.visibility = "visible";
-	console.log(kmlEvent.latitutde() + ' - ' + kmlEvent.longitude());
+	console.log(kmlEvent.latLng.lat() + ' - ' + kmlEvent.latLng.lon());
 }
 
 function getCanvasXY(currentLatLng) {
@@ -98,7 +98,7 @@ function doShowDescription(kmlEvent) {
 }
 
 function doShowSectors(kmlEvent) {
-	console.log('This routine would show sectors on map\n' + description);
+	console.log('This routine would show sectors on map\n' + kmlEvent.featureData.description);
 	$('.contextmenu').remove();
 	return false;
 }
