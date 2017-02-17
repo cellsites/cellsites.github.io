@@ -37,9 +37,8 @@ function showContextMenu(currentLatLng) {
 	contextmenuDir.innerHTML = '<a id="menu1"><div class="context">menu item 1</div></a>'
 								+ '<a id="debug1"><div class="context">' + currentLatLng + '</div></a>'
 								+ '<a id="menu2"><div class="context">menu item 2</div></a>'
-	latlngtopass = new google.maps.LatLng(currentLatLng);
 	$(map.getDiv()).append(contextmenuDir);
-	setMenuXY(latlngtopass);
+	setMenuXY(currentLatLng);
 	contextmenuDir.style.visibility = "visible";
 }
 function getCanvasXY(currentLatLng) {
@@ -87,7 +86,7 @@ function initMap() {
 	});
 	ctaLayer.setMap(map);
 	ctaLayer.addListener('click', function(kmlEvent) {
-		var position = kmlEvent.position;
+		var position = kmlEvent.latLng;
 		showContextMenu(position);
 	});
 	
