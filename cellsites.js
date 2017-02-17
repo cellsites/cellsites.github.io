@@ -111,7 +111,6 @@ function doShowSectors(kmlEvent,map) {
 				console.log(i + ' - ' + structure[index] + ' - ' + $(element).text());
 			}
 		});
-		azimuths[i] = obj;
 	});
 	
 	
