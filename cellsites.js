@@ -115,7 +115,7 @@ function doShowSectors(kmlEvent,map) {
 			});
 		});
 		azimuths[section] = obj;
-	}
+	});
 	console.log(azimuths);
 	
     var triangle1p1 = kmlEvent.latLng;
