@@ -98,10 +98,9 @@ function doShowDescription(kmlEvent) {
 }
 
 function doShowSectors(kmlEvent,map) {
-	var azimuths = {};
+	var azimuths = [];
 	
 	var $tbl = $('<tbody>').html(kmlEvent.featureData.description);
-	var obj = [];
 	var $structure = $tbl.find('tr');
 	var structure = $tbl.find('th').map(function(){return $(this).text().toLowerCase();});
 	var $datarows = $structure.nextAll('tr');
