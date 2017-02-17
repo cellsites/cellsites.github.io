@@ -39,7 +39,7 @@ function initMap() {
 	});
 	ctaLayer.setMap(map);
 	ctaLayer.addListener('click', function(kmlEvent) {
-		var position = kmlEvent.position;
+		var position = new google.maps.LatLng(kmlEvent.position);
 		showContextMenu(position);
 	});
 	function showContextMenu(currentLatLng) {
