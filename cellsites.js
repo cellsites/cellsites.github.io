@@ -98,25 +98,20 @@ function doShowDescription(kmlEvent) {
 }
 
 function doShowSectors(kmlEvent,map) {
-	var $dom = $('<html>').html(kmlEvent.featureData.description);
 	var azimuths = {};
 	
-	$('table:has(.dataLayer)', $dom).each(function(){
-		var $tbl = $(this);
-		var section = $tbl.find('.dataLayer').text();
-		var obj = [];
-		var $structure = $tbl.find('.dataHeaders');
-		var structure = $structure.find('th').map(function(){return $(this).text().toLowerCase();});
-		var $datarows = $structure.nextAll('tr');
-		$datarows.each(function(i){
-			obj[i] = {};
-			$(this).find('td').each(function(index,element) {
-				obj[i][structure[index]] = $(element).text();
-				console.log($element.text());
-			});
+	var $tbl = $('<tbody>').html(kmlEvent.featureData.description);
+	var obj = [];
+	var $structure = $tbl.find('tr');
+	var structure = $tbl.find('th').map(function(){return $(this).text().toLowerCase();});
+	var $datarows = $structure.nextAll('tr');
+	$datarows.each(function(i){
+		$(this).find('td').each(function(index,element) {
+			azimuths[i][structure[index]] = $(element).text();
+			console.log(i + ' - ' + structure[index] + ' - ' + $element.text());
 		});
-		azimuths[section] = obj;
 	});
+	
 	
     var triangle1p1 = kmlEvent.latLng;
     var triangle1p2 = destVincenty(triangle1p1.lat(), triangle1p1.lng(),345,1500);
