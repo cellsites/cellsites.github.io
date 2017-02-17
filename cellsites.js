@@ -48,7 +48,7 @@ function showContextMenu(kmlEvent) {
 	
 	setMenuXY(kmlEvent.latLng);
 	contextmenuDir.style.visibility = "visible";
-	console.log(kmlEvent.latLng.latitude + ' - ' + kmlEvent.latLng.longitude);
+	console.log(kmlEvent.latLng.lat + ' - ' + kmlEvent.latLng.lng);
 }
 
 function getCanvasXY(currentLatLng) {
@@ -98,7 +98,25 @@ function doShowDescription(kmlEvent) {
 }
 
 function doShowSectors(kmlEvent) {
-	console.log('This routine would show sectors on map\n' + kmlEvent.featureData.description);
+    var triangle1p1 = kmlEvent.latLng;
+    var triangle1p2 = destVincenty(triangle1p1.lat, triangle1p1.lng,0,1000);
+    var triangle1p3 = destVincenty(triangle1p1.lat, triangle1p1.lng,45,1000);
+	var triangle1 = [
+		triangle1p1,
+		triangle1p2,
+		triangle1p3,
+		triangle1p1
+	]
+	var testTriangle = new google.maps.Polygon({
+		paths: triangle1,
+		strokeColor: '#FF0000',
+		strokeOpacity: 0.8,
+		strokeWeight: 2,
+		fillColor: '#FF0000',
+		fillOpacity: 0.35
+	});
+	testTriangle.setMap(map);
+
 	$('.contextmenu').remove();
 	return false;
 }
