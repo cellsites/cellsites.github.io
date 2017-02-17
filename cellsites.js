@@ -34,8 +34,8 @@ function showContextMenu(currentLatLng,description) {
 	$('.contextmenu').remove();
 	contextmenuDir = document.createElement("div");
 	contextmenuDir.className = 'contextmenu';
-	contextmenuDir.innerHTML = '<a id="menu1"><div class="context">Show Description</div></a>'
-								+ '<a id="menu2"><div class="context">Show Sectors</div></a>'
+	contextmenuDir.innerHTML = '<a id="menu1" href="http://cellsites.github.io/"><div class="context">Show Description</div></a>'
+								+ '<a id="menu2" href="http://cellsites.github.io/"><div class="context">Show Sectors</div></a>'
 	$(map.getDiv()).append(contextmenuDir);
 	var a = document.getElementById("menu1");
 	a.onclick = doShowDescription(description);
@@ -84,10 +84,12 @@ function setMenuXY(currentLatLng) {
 
 function doShowDescription(description) {
 	console.log(description);
+	return false;
 }
 
 function doShowSectors(description) {
 	console.log('This routine would show sectors on map\n' + description);
+	return false;
 }
 
 function initMap() {
@@ -103,7 +105,7 @@ function initMap() {
 	ctaLayer.setMap(map);
 	ctaLayer.addListener('click', function(kmlEvent) {
 		var position = kmlEvent.latLng;
-		var description = kmlEvent.description;
+		var description = kmlEvent.featureData.description;
 		showContextMenu(position,description);
 	});
 	
