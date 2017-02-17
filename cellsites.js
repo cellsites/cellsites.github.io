@@ -34,8 +34,8 @@ function showContextMenu(currentLatLng,description) {
 	$('.contextmenu').remove();
 	contextmenuDir = document.createElement("div");
 	contextmenuDir.className = 'contextmenu';
-	contextmenuDir.innerHTML = '<a id="menu1" href="http://cellsites.github.io/"><div class="context">Show Description</div></a>'
-								+ '<a id="menu2" href="http://cellsites.github.io/"><div class="context">Show Sectors</div></a>'
+	contextmenuDir.innerHTML = '<a id="menu1" href="#"><div class="context">Show Description</div></a>'
+								+ '<a id="menu2" href="#"><div class="context">Show Sectors</div></a>'
 	$(map.getDiv()).append(contextmenuDir);
 	var a = document.getElementById("menu1");
 	a.addEventListener("click",function() {
