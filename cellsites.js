@@ -27,7 +27,7 @@ function RulerControl(controlDiv, map) {
 	});
 }
 
-function showContextMenu(currentLatLng,description) {
+function showContextMenu(kmlEvent) {
 	var projection;
 	var contextmenuDir;
 	projection = map.getProjection();
@@ -39,16 +39,16 @@ function showContextMenu(currentLatLng,description) {
 	$(map.getDiv()).append(contextmenuDir);
 	var a = document.getElementById("menu1");
 	a.addEventListener("click",function() {
-		doShowDescription(description);
+		doShowDescription(kmlEvent);
 	});
 	var b = document.getElementById("menu2");
 	b.addEventListener("click",function() {
-		doShowSectors(description);
+		doShowSectors(kmlEvent);
 	});
 	
-	setMenuXY(currentLatLng);
+	setMenuXY(kmlEvent.latLng);
 	contextmenuDir.style.visibility = "visible";
-	console.log(currentLatLng.lat() + ' - ' + currentLatLng.lng());
+	console.log(kmlEvent.latitutde() + ' - ' + kmlEvent.longitude());
 }
 
 function getCanvasXY(currentLatLng) {
@@ -86,13 +86,20 @@ function setMenuXY(currentLatLng) {
 	$('.contextmenu').css('top',y );
 }
 
-function doShowDescription(description) {
-	console.log(description);
+function doShowDescription(kmlEvent) {
+	var infowindow = new google.maps.InfoWindow({
+		content: kmlEvent.featureData.description,
+		position: kmlEvent.latLng,
+		pixelOffset: kmlEvent.pixelOffset
+	});
+	$('.contextmenu').remove();
+	infowindow.open(map);
 	return false;
 }
 
-function doShowSectors(description) {
+function doShowSectors(kmlEvent) {
 	console.log('This routine would show sectors on map\n' + description);
+	$('.contextmenu').remove();
 	return false;
 }
 
@@ -108,9 +115,7 @@ function initMap() {
 	});
 	ctaLayer.setMap(map);
 	ctaLayer.addListener('click', function(kmlEvent) {
-		var position = kmlEvent.latLng;
-		var description = kmlEvent.featureData.description;
-		showContextMenu(position,description);
+		showContextMenu(kmlEvent);
 	});
 	
  
