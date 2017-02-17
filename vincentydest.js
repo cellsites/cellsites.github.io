@@ -43,5 +43,5 @@ function destVincenty(lat1, lon1, brng, dist) {
      C = f / 16 * cosSqAlpha * (4 + f * (4 - 3 * cosSqAlpha)),
      L = lambda - (1 - C) * f * sinAlpha * (sigma + C * sinSigma * (cos2SigmaM + C * cosSigma * (-1 + 2 * cos2SigmaM * cos2SigmaM))),
      revAz = Math.atan2(sinAlpha, -tmp); // final bearing
- return new LatLon(toDeg(lat2), lon1 + toDeg(L));
+ return new google.maps.LatLng(toDeg(lat2), lon1 + toDeg(L));
 };
