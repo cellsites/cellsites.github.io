@@ -1,93 +1,97 @@
 var map;
 
 function RulerControl(controlDiv, map) {
-// Set CSS for the control border.
-var controlUI = document.createElement('div');
-controlUI.style.backgroundColor = '#fff';
-controlUI.style.border = '2px solid #fff';
-controlUI.style.borderRadius = '3px';
-controlUI.style.boxShadow = '0 2px 6px rgba(0,0,0,.3)';
-controlUI.style.cursor = 'pointer';
-controlUI.style.marginBottom = '22px';
-controlUI.style.textAlign = 'center';
-controlUI.title = 'Click to add a ruler';
-controlDiv.appendChild(controlUI);
-// Set CSS for the control interior.
-var controlText = document.createElement('div');
-controlText.style.color = 'rgb(25,25,25)';
-controlText.style.fontFamily = 'Roboto,Arial,sans-serif';
-controlText.style.fontSize = '16px';
-controlText.style.lineHeight = '38px';
-controlText.style.paddingLeft = '5px';
-controlText.style.paddingRight = '5px';
-controlText.innerHTML = 'Add Ruler';
-controlUI.appendChild(controlText);
-controlUI.addEventListener('click', function() {
-addruler();
-});
+	// Set CSS for the control border.
+	var controlUI = document.createElement('div');
+	controlUI.style.backgroundColor = '#fff';
+	controlUI.style.border = '2px solid #fff';
+	controlUI.style.borderRadius = '3px';
+	controlUI.style.boxShadow = '0 2px 6px rgba(0,0,0,.3)';
+	controlUI.style.cursor = 'pointer';
+	controlUI.style.marginBottom = '22px';
+	controlUI.style.textAlign = 'center';
+	controlUI.title = 'Click to add a ruler';
+	controlDiv.appendChild(controlUI);
+	// Set CSS for the control interior.
+	var controlText = document.createElement('div');
+	controlText.style.color = 'rgb(25,25,25)';
+	controlText.style.fontFamily = 'Roboto,Arial,sans-serif';
+	controlText.style.fontSize = '16px';
+	controlText.style.lineHeight = '38px';
+	controlText.style.paddingLeft = '5px';
+	controlText.style.paddingRight = '5px';
+	controlText.innerHTML = 'Add Ruler';
+	controlUI.appendChild(controlText);
+	controlUI.addEventListener('click', function() {
+		addruler();
+	});
 }
+
+function showContextMenu(currentLatLng) {
+	var projection;
+	var contextmenuDir;
+	projection = map.getProjection();
+	$('.contextmenu').remove();
+	contextmenuDir = document.createElement("div");
+	contextmenuDir.className = 'contextmenu';
+	contextmenuDir.innerHTML = '<a id="menu1"><div class="context">menu item 1</div></a>'
+								+ '<a id="debug1"><div class="context">' + currentLatLng + '</div></a>'
+								+ '<a id="menu2"><div class="context">menu item 2</div></a>'
+	latlngtopass = new google.maps.LatLng(currentLatLng);
+	$(map.getDiv()).append(contextmenuDir);
+	setMenuXY(latlngtopass);
+	contextmenuDir.style.visibility = "visible";
+}
+function getCanvasXY(currentLatLng) {
+	var scale = Math.pow(2, map.getZoom());
+	var nw = new google.maps.LatLng(
+		map.getBounds().getNorthEast().lat(),
+		map.getBounds().getSouthWest().lng()
+	);
+	var worldCoordinateNW = map.getProjection().fromLatLngToPoint(nw);
+	var worldCoordinate = map.getProjection().fromLatLngToPoint(currentLatLng);
+	var currentLatLngOffset = new google.maps.Point(
+		Math.floor((worldCoordinate.x - worldCoordinateNW.x) * scale),
+		Math.floor((worldCoordinate.y - worldCoordinateNW.y) * scale)
+	);
+	return currentLatLngOffset;
+}
+function setMenuXY(currentLatLng) {
+	var mapWidth = $('#map_canvas').width();
+	var mapHeight = $('#map_canvas').height();
+	var menuWidth = $('.contextmenu').width();
+	var menuHeight = $('.contextmenu').height();
+	var clickedPosition = getCanvasXY(currentLatLng);
+	var x = clickedPosition.x;
+	var y = clickedPosition.y;
+	
+	if((mapWidth - x) < menuWidth)
+		x = x - menuWidth;
+	if((mapHeight - y) < menuHeight)
+		y = y - menuHeight;
+	
+	$('.contextmenu').css('left',x );
+	$('.conetxtmenu').css('top',y );
+}
+
 
 function initMap() {
 	var markers = [];
 	map = new google.maps.Map(document.getElementById('map'), {
 		mapTypeId: google.maps.MapTypeId.ROADMAP,
-		scaleControl: true,
-		suppressInfoWindows: true
+		scaleControl: true
 	});
 	var ctaLayer = new google.maps.KmlLayer({
-		url: 'http://cellsites.github.io/sasktel_sites.kmz'
+		url: 'http://cellsites.github.io/sasktel_sites.kmz',
+		suppressInfoWindows: true
 	});
 	ctaLayer.setMap(map);
 	ctaLayer.addListener('click', function(kmlEvent) {
-		var position = new google.maps.LatLng(kmlEvent.position);
+		var position = kmlEvent.position;
 		showContextMenu(position);
 	});
-	function showContextMenu(currentLatLng) {
-		var projection;
-		var contextmenuDir;
-		projection = map.getProjection();
-		$('.contextmenu').remove();
-		contextmenuDir = document.createElement("div");
-		contextmenuDir.className = 'contextmenu';
-		contextmenuDir.innerHTML = '<a id="menu1"><div class="context">menu item 1</div></a>'
-									+ '<a id="menu2"><div class="context">menu item 2</div></a>'
-		$(map.getDiv()).append(contextmenuDir);
-		setMenuXY(currentLatLng);
-		contextmenuDir.style.visibility = "visible";
-	}
-	function getCanvasXY(currentLatLng) {
-		var scale = Math.pow(2, map.getZoom());
-		var nw = new google.maps.LatLng(
-			map.getBounds().getNorthEast().lat(),
-			map.getBounds().getSouthWest().lng()
-		);
-		var worldCoordinateNW = map.getProjection().fromLatLngToPoint(nw);
-		var worldCoordinate = map.getProjection().fromLatLngToPoint(currentLatLng);
-		var currentLatLngOffset = new google.maps.Point(
-			Math.floor((worldCoordinate.x - worldCoordinateNW.x) * scale),
-			Math.floor((worldCoordinate.y - worldCoordinateNW.y) * scale)
-		);
-		return currentLatLngOffset;
-	}
-	function setMenuXY(currentLatLng) {
-		var mapWidth = $('#map_canvas').width();
-		var mapHeight = $('#map_canvas').height();
-		var menuWidth = $('.contextmenu').width();
-		var menuHeight = $('.contextmenu').height();
-		var clickedPosition = getCanvasXY(currentLatLng);
-		var x = clickedPosition.x;
-		var y = clickedPosition.y;
-		
-		if((mapWidth - x) < menuWidth)
-			x = x - menuWidth;
-		if((mapHeight - y) < menuHeight)
-			y = y - menuHeight;
-		
-		$('.contextmenu').css('left',x );
-		$('.conetxtmenu').css('top',y );
-	}
-		
-		 
+	
+ 
 	// Create the DIV to hold the control and call the CenterControl()
 	// constructor passing in this DIV.
 	var rulerControlDiv = document.createElement('div');
