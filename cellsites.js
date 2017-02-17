@@ -48,7 +48,7 @@ function showContextMenu(kmlEvent) {
 	
 	setMenuXY(kmlEvent.latLng);
 	contextmenuDir.style.visibility = "visible";
-	console.log(kmlEvent.latLng.lat + ' - ' + kmlEvent.latLng.lng);
+	console.log(kmlEvent.latLng.lat() + ' - ' + kmlEvent.latLng.lng());
 }
 
 function getCanvasXY(currentLatLng) {
@@ -99,8 +99,8 @@ function doShowDescription(kmlEvent) {
 
 function doShowSectors(kmlEvent) {
     var triangle1p1 = kmlEvent.latLng;
-    var triangle1p2 = destVincenty(triangle1p1.lat, triangle1p1.lng,0,1000);
-    var triangle1p3 = destVincenty(triangle1p1.lat, triangle1p1.lng,45,1000);
+    var triangle1p2 = destVincenty(triangle1p1.lat(), triangle1p1.lng(),0,1000);
+    var triangle1p3 = destVincenty(triangle1p1.lat(), triangle1p1.lng(),45,1000);
 	var triangle1 = [
 		triangle1p1,
 		triangle1p2,
