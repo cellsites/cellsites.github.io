@@ -27,20 +27,26 @@ function RulerControl(controlDiv, map) {
 	});
 }
 
-function showContextMenu(currentLatLng) {
+function showContextMenu(currentLatLng,description) {
 	var projection;
 	var contextmenuDir;
 	projection = map.getProjection();
 	$('.contextmenu').remove();
 	contextmenuDir = document.createElement("div");
 	contextmenuDir.className = 'contextmenu';
-	contextmenuDir.innerHTML = '<a id="menu1"><div class="context">menu item 1</div></a>'
-								+ '<a id="menu2"><div class="context">menu item 2</div></a>'
+	contextmenuDir.innerHTML = '<a id="menu1"><div class="context">Show Description</div></a>'
+								+ '<a id="menu2"><div class="context">Show Sectors</div></a>'
 	$(map.getDiv()).append(contextmenuDir);
+	var a = document.getElementById("menu1");
+	a.onclick = doShowDescription(description);
+	var b = document.getElementById("menu2");
+	b.onclick = doShowSectors(description);
+	
 	setMenuXY(currentLatLng);
 	contextmenuDir.style.visibility = "visible";
 	console.log(currentLatLng.lat() + ' - ' + currentLatLng.lng());
 }
+
 function getCanvasXY(currentLatLng) {
 	var scale = Math.pow(2, map.getZoom());
 	var nw = new google.maps.LatLng(
@@ -55,6 +61,7 @@ function getCanvasXY(currentLatLng) {
 	);
 	return currentLatLngOffset;
 }
+
 function setMenuXY(currentLatLng) {
 	var mapWidth = $('#map_canvas').width();
 	var mapHeight = $('#map_canvas').height();
@@ -72,9 +79,16 @@ function setMenuXY(currentLatLng) {
 	console.log(x + ' - ' + y);
 	
 	$('.contextmenu').css('left',x );
-	$('.conetxtmenu').css('top',y );
+	$('.contextmenu').css('top',y );
 }
 
+function doShowDescription(description) {
+	console.log(description);
+}
+
+function doShowSectors(description) {
+	console.log('This routine would show sectors on map\n' + description);
+}
 
 function initMap() {
 	var markers = [];
@@ -89,7 +103,8 @@ function initMap() {
 	ctaLayer.setMap(map);
 	ctaLayer.addListener('click', function(kmlEvent) {
 		var position = kmlEvent.latLng;
-		showContextMenu(position);
+		var description = kmlEvent.description;
+		showContextMenu(position,description);
 	});
 	
  
