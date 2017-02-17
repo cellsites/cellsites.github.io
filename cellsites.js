@@ -105,10 +105,11 @@ function doShowSectors(kmlEvent,map) {
 	var structure = $tbl.find('th').map(function(){return $(this).text().toLowerCase();});
 	var $datarows = $structure.nextAll('tr');
 	$datarows.each(function(i){
-		var obj = [];
 		$(this).find('td').each(function(index,element) {
-			console.log(i + ' - ' + structure[index] + ' - ' + $(element).text());
-			obj[index] = $(element).text();
+			if (structure[index] == 'azimuth') {
+				azimuths[i] = $(element).text();
+				console.log(i + ' - ' + structure[index] + ' - ' + $(element).text());
+			}
 		});
 		azimuths[i] = obj;
 	});
