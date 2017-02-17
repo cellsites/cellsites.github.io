@@ -112,11 +112,11 @@ function doShowSectors(kmlEvent,map) {
 			obj[i] = {};
 			$(this).find('td').each(function(index,element) {
 				obj[i][structure[index]] = $(element).text();
+				console.log($element.text());
 			});
 		});
 		azimuths[section] = obj;
 	});
-	console.log(azimuths);
 	
     var triangle1p1 = kmlEvent.latLng;
     var triangle1p2 = destVincenty(triangle1p1.lat(), triangle1p1.lng(),345,1500);
