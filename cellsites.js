@@ -99,6 +99,7 @@ function doShowDescription(kmlEvent) {
 
 function doShowSectors(kmlEvent,map) {
 	var azimuths = [];
+	var azimuthi = 0;
 	
 	var $tbl = $('<tbody>').html(kmlEvent.featureData.description);
 	var $structure = $tbl.find('tr');
@@ -107,8 +108,18 @@ function doShowSectors(kmlEvent,map) {
 	$datarows.each(function(i){
 		$(this).find('td').each(function(index,element) {
 			if (structure[index] == 'azimuth') {
-				azimuths[i] = $(element).text();
-				console.log(i + ' - ' + structure[index] + ' - ' + $(element).text());
+				numaz = azimuths.length;
+				azexists = -1;
+				for (var i2 = 0; i2 < numaz; i2++) {
+					if (azimuths[i2] == $(element).text()) {
+						azexists = i2;
+					}
+				}
+				if (azexists == -1) {
+					azimuths[azimuthi] = $(element).text();
+					azimuthi++;
+					console.log(i + ' - ' + structure[index] + ' - ' + $(element).text());
+				}
 			}
 		});
 	});
