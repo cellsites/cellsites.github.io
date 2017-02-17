@@ -35,11 +35,11 @@ function showContextMenu(currentLatLng) {
 	contextmenuDir = document.createElement("div");
 	contextmenuDir.className = 'contextmenu';
 	contextmenuDir.innerHTML = '<a id="menu1"><div class="context">menu item 1</div></a>'
-								+ '<a id="debug1"><div class="context">' + currentLatLng + '</div></a>'
 								+ '<a id="menu2"><div class="context">menu item 2</div></a>'
 	$(map.getDiv()).append(contextmenuDir);
 	setMenuXY(currentLatLng);
 	contextmenuDir.style.visibility = "visible";
+	console.log(currentLatLng);
 }
 function getCanvasXY(currentLatLng) {
 	var scale = Math.pow(2, map.getZoom());
@@ -63,6 +63,7 @@ function setMenuXY(currentLatLng) {
 	var clickedPosition = getCanvasXY(currentLatLng);
 	var x = clickedPosition.x;
 	var y = clickedPosition.y;
+	console.log(x + ' - ' + y);
 	
 	if((mapWidth - x) < menuWidth)
 		x = x - menuWidth;
