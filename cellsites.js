@@ -98,10 +98,29 @@ function doShowDescription(kmlEvent) {
 }
 
 function doShowSectors(kmlEvent,map) {
+	var $dom = $('<html>').html(kmlEvent.featureData.description);
+	var azimuths = {};
+	
+	$('table:has(.dataLayer)', $dom).each(function(){
+		var $tbl = $(this);
+		var section = $tbl.find('.dataLayer').text();
+		var obj = [];
+		var $structure = $tbl.find('.dataHeaders');
+		var structure = $structure.find('th').map(function(){return $(this).text().toLowerCase();});
+		var $datarows = $structure.nextAll('tr');
+		$datarows.each(function(i){
+			obj[i] = {};
+			$(this).find('td').each(function(index,element) {
+				obj[i][structure[index]] = $(element).text();
+			});
+		});
+		azimuths[section] = obj;
+	}
+	console.log(azimuths);
+	
     var triangle1p1 = kmlEvent.latLng;
-    var triangle1p2 = destVincenty(triangle1p1.lat(), triangle1p1.lng(),0,1000);
-    var triangle1p3 = destVincenty(triangle1p1.lat(), triangle1p1.lng(),45,1000);
-    console.log(triangle1p1 + ' - ' + triangle1p2 + ' - ' + triangle1p3);
+    var triangle1p2 = destVincenty(triangle1p1.lat(), triangle1p1.lng(),345,1500);
+    var triangle1p3 = destVincenty(triangle1p1.lat(), triangle1p1.lng(),15,1500);
 	var triangle1 = [
 		triangle1p1,
 		triangle1p2,
