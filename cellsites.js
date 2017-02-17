@@ -38,9 +38,13 @@ function showContextMenu(currentLatLng,description) {
 								+ '<a id="menu2" href="http://cellsites.github.io/"><div class="context">Show Sectors</div></a>'
 	$(map.getDiv()).append(contextmenuDir);
 	var a = document.getElementById("menu1");
-	a.onclick = doShowDescription(description);
+	a.addEventListener("click",function() {
+		doShowDescription(description);
+	});
 	var b = document.getElementById("menu2");
-	b.onclick = doShowSectors(description);
+	b.addEventListener("click",function() {
+		doShowSectors(description);
+	});
 	
 	setMenuXY(currentLatLng);
 	contextmenuDir.style.visibility = "visible";
