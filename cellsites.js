@@ -27,7 +27,7 @@ function RulerControl(controlDiv, map) {
 	});
 }
 
-function showContextMenu(kmlEvent) {
+function showContextMenu(kmlEvent,map) {
 	var projection;
 	var contextmenuDir;
 	projection = map.getProjection();
@@ -43,7 +43,7 @@ function showContextMenu(kmlEvent) {
 	});
 	var b = document.getElementById("menu2");
 	b.addEventListener("click",function() {
-		doShowSectors(kmlEvent);
+		doShowSectors(kmlEvent,map);
 	});
 	
 	setMenuXY(kmlEvent.latLng);
@@ -97,7 +97,7 @@ function doShowDescription(kmlEvent) {
 	return false;
 }
 
-function doShowSectors(kmlEvent) {
+function doShowSectors(kmlEvent,map) {
     var triangle1p1 = kmlEvent.latLng;
     var triangle1p2 = destVincenty(triangle1p1.lat(), triangle1p1.lng(),0,1000);
     var triangle1p3 = destVincenty(triangle1p1.lat(), triangle1p1.lng(),45,1000);
@@ -133,7 +133,7 @@ function initMap() {
 	});
 	ctaLayer.setMap(map);
 	ctaLayer.addListener('click', function(kmlEvent) {
-		showContextMenu(kmlEvent);
+		showContextMenu(kmlEvent,map);
 	});
 	
  
