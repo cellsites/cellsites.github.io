@@ -101,6 +101,7 @@ function doShowSectors(kmlEvent,map) {
     var triangle1p1 = kmlEvent.latLng;
     var triangle1p2 = destVincenty(triangle1p1.lat(), triangle1p1.lng(),0,1000);
     var triangle1p3 = destVincenty(triangle1p1.lat(), triangle1p1.lng(),45,1000);
+    console.log(triangle1p1 + ' - ' + triangle1p2 + ' - ' + triangle1p3);
 	var triangle1 = [
 		triangle1p1,
 		triangle1p2,
