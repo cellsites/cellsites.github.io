@@ -48,7 +48,7 @@ function showContextMenu(kmlEvent) {
 	
 	setMenuXY(kmlEvent.latLng);
 	contextmenuDir.style.visibility = "visible";
-	console.log(kmlEvent.latLng.lat() + ' - ' + kmlEvent.latLng.lon());
+	console.log(kmlEvent.latLng.latitude + ' - ' + kmlEvent.latLng.longitude);
 }
 
 function getCanvasXY(currentLatLng) {
