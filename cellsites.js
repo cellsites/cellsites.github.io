@@ -138,7 +138,7 @@ function doShowSectors(kmlEvent,map) {
 			triangle1p3,
 			triangle1p1
 		];
-		var triangles2[i] = new google.maps.Polygon({
+		triangles2[i] = new google.maps.Polygon({
 			paths: triangles[i],
 			strokeColor: '#FF0000',
 			strokeOpacity: 0.8,
