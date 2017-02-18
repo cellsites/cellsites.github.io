@@ -130,8 +130,8 @@ function doShowSectors(kmlEvent,map) {
 
 	var numaz = azimuths.length;
 	for (var i = 0; i < numaz; i++) {
-		var triangle1p2 = destVincenty(triangle1p1.lat(), triangle1p1.lng(),(Number(azuimuths[i]) - 15),1500);
-		var triangle1p3 = destVincenty(triangle1p1.lat(), triangle1p1.lng(),(Number(azuimuths[i]) + 15),1500);
+		var triangle1p2 = destVincenty(triangle1p1.lat(), triangle1p1.lng(),(Number(azimuths[i]) - 15),1500);
+		var triangle1p3 = destVincenty(triangle1p1.lat(), triangle1p1.lng(),(Number(azimuths[i]) + 15),1500);
 		triangles[i] = [
 			triangle1p1,
 			triangle1p2,
