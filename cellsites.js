@@ -146,7 +146,7 @@ function doShowSectors(kmlEvent,map) {
 			fillColor: '#FF0000',
 			fillOpacity: 0.35
 		});
-		triangles[2].setMap(map);
+		triangles2[i].setMap(map);
 	};
 
 	$('.contextmenu').remove();
