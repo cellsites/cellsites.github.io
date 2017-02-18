@@ -108,8 +108,8 @@ function doShowSectors(kmlEvent,map) {
 	$datarows.each(function(i){
 		$(this).find('td').each(function(index,element) {
 			if (structure[index] == 'azimuth') {
-				numaz = azimuths.length;
-				azexists = -1;
+				var numaz = azimuths.length;
+				var azexists = -1;
 				for (var i2 = 0; i2 < numaz; i2++) {
 					if (azimuths[i2] == $(element).text()) {
 						azexists = i2;
@@ -124,25 +124,30 @@ function doShowSectors(kmlEvent,map) {
 		});
 	});
 	
-	
+	var triangles = [];
+	var triangles2 = [];
     var triangle1p1 = kmlEvent.latLng;
-    var triangle1p2 = destVincenty(triangle1p1.lat(), triangle1p1.lng(),345,1500);
-    var triangle1p3 = destVincenty(triangle1p1.lat(), triangle1p1.lng(),15,1500);
-	var triangle1 = [
-		triangle1p1,
-		triangle1p2,
-		triangle1p3,
-		triangle1p1
-	]
-	var testTriangle = new google.maps.Polygon({
-		paths: triangle1,
-		strokeColor: '#FF0000',
-		strokeOpacity: 0.8,
-		strokeWeight: 2,
-		fillColor: '#FF0000',
-		fillOpacity: 0.35
-	});
-	testTriangle.setMap(map);
+
+	var numaz = azimuths.length;
+	for (var i = 0; i < numaz; i++) {
+		var triangle1p2 = destVincenty(triangle1p1.lat(), triangle1p1.lng(),(Number(azuimuths[i]) - 15),1500);
+		var triangle1p3 = destVincenty(triangle1p1.lat(), triangle1p1.lng(),(Number(azuimuths[i]) + 15),1500);
+		triangles[i] = [
+			triangle1p1,
+			triangle1p2,
+			triangle1p3,
+			triangle1p1
+		]
+		var triangles2[i] = new google.maps.Polygon({
+			paths: triangles[i],
+			strokeColor: '#FF0000',
+			strokeOpacity: 0.8,
+			strokeWeight: 2,
+			fillColor: '#FF0000',
+			fillOpacity: 0.35
+		});
+		triangles[2].setMap(map);
+	}
 
 	$('.contextmenu').remove();
 	return false;
