@@ -137,7 +137,7 @@ function doShowSectors(kmlEvent,map) {
 			triangle1p2,
 			triangle1p3,
 			triangle1p1
-		]
+		];
 		var triangles2[i] = new google.maps.Polygon({
 			paths: triangles[i],
 			strokeColor: '#FF0000',
@@ -147,7 +147,7 @@ function doShowSectors(kmlEvent,map) {
 			fillOpacity: 0.35
 		});
 		triangles[2].setMap(map);
-	}
+	};
 
 	$('.contextmenu').remove();
 	return false;
