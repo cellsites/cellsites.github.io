@@ -89,7 +89,7 @@ function doShowSectors(kmlEvent) {
 	});
 	sectorspoly.setMap(map);
 	google.maps.event.addListener(sectorspoly,'click', function(event) {
-		showPolyRemoveMenu(event);
+		showPolyRemoveMenu(event,sectorspoly);
 	});
 	
 

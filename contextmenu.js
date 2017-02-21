@@ -35,7 +35,7 @@ function showContextMenu(kmlEvent) {
 //	console.log(kmlEvent.latLng.lat() + ' - ' + kmlEvent.latLng.lng());
 }
 
-function showPolyRemoveMenu(thisEvent) {
+function showPolyRemoveMenu(thisEvent,sectorspoly) {
 	var projection;
 	var contextmenuDir;
 	projection = map.getProjection();
@@ -47,9 +47,7 @@ function showPolyRemoveMenu(thisEvent) {
 
 	var a = document.getElementById("menu1");
 	a.addEventListener("click",function() {
-//		this.setMap(null);
-		console.log(this);
-		console.log(thisEvent.placeId);
+		sectorspoly.setMap(null);
 		$('.contextmenu').remove();
 		return false;
 	});
