@@ -69,7 +69,7 @@ function doShowSectors(kmlEvent) {
 	
 	// triangle drawing adapted from https://developers.google.com/maps/documentation/javascript/examples/polygon-simple
 
-	var triangles = [];
+	var triangles = {};
     var triangle1p1 = kmlEvent.latLng;
 
 	var numaz = azimuths.length;
