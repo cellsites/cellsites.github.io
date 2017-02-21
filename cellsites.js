@@ -70,29 +70,25 @@ function doShowSectors(kmlEvent) {
 	// triangle drawing adapted from https://developers.google.com/maps/documentation/javascript/examples/polygon-simple
 
 	var triangles = [];
-	var triangles2 = [];
     var triangle1p1 = kmlEvent.latLng;
 
 	var numaz = azimuths.length;
 	for (var i = 0; i < numaz; i++) {
-		var triangle1p2 = destVincenty(triangle1p1.lat(), triangle1p1.lng(),(Number(azimuths[i]) - 15),1500);
-		var triangle1p3 = destVincenty(triangle1p1.lat(), triangle1p1.lng(),(Number(azimuths[i]) + 15),1500);
-		triangles[i] = [
-			triangle1p1,
-			triangle1p2,
-			triangle1p3,
-			triangle1p1
-		];
-		triangles2[i] = new google.maps.Polygon({
-			paths: triangles[i],
-			strokeColor: '#FF0000',
-			strokeOpacity: 0.8,
-			strokeWeight: 2,
-			fillColor: '#FF0000',
-			fillOpacity: 0.35
-		});
-		triangles2[i].setMap(map);
+		triangles[(i * 3)] = triangle1p1;
+		triangles[(i * 3) + 1] = destVincenty(triangle1p1.lat(), triangle1p1.lng(),(Number(azimuths[i]) - 15),1500);
+		triangles[(i * 3) + 2] = destVincenty(triangle1p1.lat(), triangle1p1.lng(),(Number(azimuths[i]) + 15),1500);
 	};
+	triangles[(i * 3) + 3] = triangle1p1;
+	var sectorspoly = new google.maps.Polygon({
+		paths: triangles,
+		strokeColor: '#FF0000',
+		strokeOpacity: 0.8,
+		strokeWeight: 2,
+		fillColor: '#FF0000',
+		fillOpacity: 0.35
+	});
+	sectorspoly.setMap(map);
+	
 
 }
 
@@ -111,7 +107,8 @@ function initMap() {
 		showContextMenu(kmlEvent);
 	});
 	
- 
+/* 
+	// Section removed since Add Ruler added to conext menu this button is probably not necessary
 	// Create the DIV to hold the control and call the CenterControl()
 	// constructor passing in this DIV.
 	var rulerControlDiv = document.createElement('div');
@@ -119,7 +116,9 @@ function initMap() {
 	rulerControlDiv.index = 1;
 	map.controls[google.maps.ControlPosition.TOP_RIGHT].push(
 		rulerControlDiv);
-		
+	
+*/	
+	
 	// Search box code adapted from https://developers.google.com/maps/documentation/javascript/examples/places-searchbox?hl=fr
 		
 	var input = /** @type {HTMLInputElement} */ (document.getElementById(
