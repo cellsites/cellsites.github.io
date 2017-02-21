@@ -78,7 +78,7 @@ function doShowSectors(kmlEvent) {
 		triangles[(i * 3) + 1] = destVincenty(triangle1p1.lat(), triangle1p1.lng(),(Number(azimuths[i]) - 15),1500);
 		triangles[(i * 3) + 2] = destVincenty(triangle1p1.lat(), triangle1p1.lng(),(Number(azimuths[i]) + 15),1500);
 	};
-	triangles[(i * 3) + 3] = triangle1p1;
+	triangles[(i * 3)] = triangle1p1;
 	console.log(triangles);
 	var sectorspoly = new google.maps.Polygon({
 		paths: triangles,
