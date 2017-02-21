@@ -1,3 +1,5 @@
+// From http://blog.mridey.com/2009/09/label-overlay-example-for-google-maps.html
+
 // Define the overlay, derived from google.maps.OverlayView
 function Label(opt_options) {
 	// Initialization

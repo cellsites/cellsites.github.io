@@ -25,7 +25,7 @@ function RulerControl(controlDiv, map) {
 	controlText.innerHTML = 'Add Ruler';
 	controlUI.appendChild(controlText);
 	controlUI.addEventListener('click', function() {
-		addruler();
+		addruler(map.getCenter());
 	});
 }
 
@@ -40,7 +40,7 @@ function doShowDescription(kmlEvent) {
 	return false;
 }
 
-function doShowSectors(kmlEvent,map) {
+function doShowSectors(kmlEvent) {
 	
 	// HTML table parsing portion adapted from http://stackoverflow.com/questions/4247838/best-way-to-parse-html-in-javascript
 
@@ -112,7 +112,7 @@ function initMap() {
 	});
 	ctaLayer.setMap(map);
 	ctaLayer.addListener('click', function(kmlEvent) {
-		showContextMenu(kmlEvent,map);
+		showContextMenu(kmlEvent);
 	});
 	
  
@@ -123,6 +123,9 @@ function initMap() {
 	rulerControlDiv.index = 1;
 	map.controls[google.maps.ControlPosition.TOP_RIGHT].push(
 		rulerControlDiv);
+		
+	// Search box code adapted from https://developers.google.com/maps/documentation/javascript/examples/places-searchbox?hl=fr
+		
 	var input = /** @type {HTMLInputElement} */ (document.getElementById(
 		'pac-input'));
 	map.controls[google.maps.ControlPosition.TOP_LEFT].push(input);

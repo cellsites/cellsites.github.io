@@ -1,6 +1,6 @@
 // Code adapted from http://googleapitips.blogspot.ca/2010/06/how-to-add-context-menu-to-google-maps.html
 
-function showContextMenu(kmlEvent,map) {
+function showContextMenu(kmlEvent) {
 	var projection;
 	var contextmenuDir;
 	projection = map.getProjection();
@@ -9,6 +9,7 @@ function showContextMenu(kmlEvent,map) {
 	contextmenuDir.className = 'contextmenu';
 	contextmenuDir.innerHTML = '<a id="menu1" href="#"><div class="context">Show Description</div></a>'
 								+ '<a id="menu2" href="#"><div class="context">Show Sectors</div></a>'
+								+ '<a id="menu3" href="#"><div class="context">Add Ruler</div></a>'
 	$(map.getDiv()).append(contextmenuDir);
 	var a = document.getElementById("menu1");
 	a.addEventListener("click",function() {
@@ -16,7 +17,11 @@ function showContextMenu(kmlEvent,map) {
 	});
 	var b = document.getElementById("menu2");
 	b.addEventListener("click",function() {
-		doShowSectors(kmlEvent,map);
+		doShowSectors(kmlEvent);
+	});
+	var b = document.getElementById("menu3");
+	b.addEventListener("click",function() {
+		addruler(kmlEvent.latLng);
 	});
 	
 	setMenuXY(kmlEvent.latLng);

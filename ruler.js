@@ -5,16 +5,16 @@
 	this function uses the label class from Marc Ridley Blog
 
 */
-function addruler() {
+function addruler(rulerposition) {
 
 	var ruler1 = new google.maps.Marker({
-		position: map.getCenter() ,
+		position: rulerposition ,
 		map: map,
 		draggable: true
 	});
 
 	var ruler2 = new google.maps.Marker({
-		position: map.getCenter() ,
+		position: rulerposition ,
 		map: map,
 		draggable: true
 	});
