@@ -69,7 +69,7 @@ function doShowSectors(kmlEvent) {
 	
 	// triangle drawing adapted from https://developers.google.com/maps/documentation/javascript/examples/polygon-simple
 
-	var triangles = {};
+	var triangles = [];
     var triangle1p1 = kmlEvent.latLng;
 
 	var numaz = azimuths.length;
@@ -79,6 +79,7 @@ function doShowSectors(kmlEvent) {
 		triangles[(i * 3) + 2] = destVincenty(triangle1p1.lat(), triangle1p1.lng(),(Number(azimuths[i]) + 15),1500);
 	};
 	triangles[(i * 3) + 3] = triangle1p1;
+	console.log(triangles);
 	var sectorspoly = new google.maps.Polygon({
 		paths: triangles,
 		strokeColor: '#FF0000',
