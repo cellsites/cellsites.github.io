@@ -52,7 +52,7 @@ function showPolyRemoveMenu(thisEvent) {
 		return false;
 	});
 
-	setMenuXY(kmlEvent.latLng);
+	setMenuXY(thisEvent.latLng);
 	contextmenuDir.style.visibility = "visible";
 }
 
