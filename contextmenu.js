@@ -14,14 +14,20 @@ function showContextMenu(kmlEvent) {
 	var a = document.getElementById("menu1");
 	a.addEventListener("click",function() {
 		doShowDescription(kmlEvent);
+		$('.contextmenu').remove();
+		return false;
 	});
 	var b = document.getElementById("menu2");
 	b.addEventListener("click",function() {
 		doShowSectors(kmlEvent);
+		$('.contextmenu').remove();
+		return false;
 	});
 	var b = document.getElementById("menu3");
 	b.addEventListener("click",function() {
 		addruler(kmlEvent.latLng);
+		$('.contextmenu').remove();
+		return false;  // return false is supposed to prevent following the link but doesn't seem to work in all browsers
 	});
 	
 	setMenuXY(kmlEvent.latLng);

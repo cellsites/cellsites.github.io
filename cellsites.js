@@ -35,9 +35,7 @@ function doShowDescription(kmlEvent) {
 		position: kmlEvent.latLng,
 		pixelOffset: kmlEvent.pixelOffset
 	});
-	$('.contextmenu').remove();
 	infowindow.open(map);
-	return false;
 }
 
 function doShowSectors(kmlEvent) {
@@ -96,8 +94,6 @@ function doShowSectors(kmlEvent) {
 		triangles2[i].setMap(map);
 	};
 
-	$('.contextmenu').remove();
-	return false;  // return false is supposed to prevent following the link but doesn't seem to work in all browsers
 }
 
 function initMap() {
