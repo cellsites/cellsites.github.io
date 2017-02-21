@@ -17,14 +17,14 @@ function showContextMenu(kmlEvent) {
 		$('.contextmenu').remove();
 		return false;
 	});
-	var b = document.getElementById("menu2");
-	b.addEventListener("click",function() {
+	a = document.getElementById("menu2");
+	a.addEventListener("click",function() {
 		doShowSectors(kmlEvent);
 		$('.contextmenu').remove();
 		return false;
 	});
-	var b = document.getElementById("menu3");
-	b.addEventListener("click",function() {
+	a = document.getElementById("menu3");
+	a.addEventListener("click",function() {
 		addruler(kmlEvent.latLng);
 		$('.contextmenu').remove();
 		return false;  // return false is supposed to prevent following the link but doesn't seem to work in all browsers
@@ -33,6 +33,27 @@ function showContextMenu(kmlEvent) {
 	setMenuXY(kmlEvent.latLng);
 	contextmenuDir.style.visibility = "visible";
 //	console.log(kmlEvent.latLng.lat() + ' - ' + kmlEvent.latLng.lng());
+}
+
+function showPolyRemoveMenu(thisEvent) {
+	var projection;
+	var contextmenuDir;
+	projection = map.getProjection();
+	$('.contextmenu').remove();
+	contextmenuDir = document.createElement("div");
+	contextmenuDir.className = 'contextmenu';
+	contextmenuDir.innerHTML = '<a id="menu1" href="#"><div class="context">Remove</div></a>';
+	$(map.getDiv()).append(contextmenuDir);
+
+	var a = document.getElementById("menu1");
+	a.addEventListener("click",function() {
+		this.setMap(null);
+		$('.contextmenu').remove();
+		return false;
+	});
+
+	setMenuXY(kmlEvent.latLng);
+	contextmenuDir.style.visibility = "visible";
 }
 
 function getCanvasXY(currentLatLng) {

@@ -1,6 +1,6 @@
 var map;
 
-function RulerControl(controlDiv, map) {
+function RulerControl(controlDiv) {
 	// Adapted from https://developers.google.com/maps/documentation/javascript/examples/control-custom
 	
 	// Set CSS for the control border.
@@ -79,7 +79,6 @@ function doShowSectors(kmlEvent) {
 		triangles[(i * 3) + 2] = destVincenty(triangle1p1.lat(), triangle1p1.lng(),(Number(azimuths[i]) + 15),1500);
 	};
 	triangles[(i * 3)] = triangle1p1;
-	console.log(triangles);
 	var sectorspoly = new google.maps.Polygon({
 		paths: triangles,
 		strokeColor: '#FF0000',
@@ -89,6 +88,9 @@ function doShowSectors(kmlEvent) {
 		fillOpacity: 0.35
 	});
 	sectorspoly.setMap(map);
+	google.maps.event.addListener(sectorspoly,'click', function(event) {
+		showPolyRemoveMenu(event);
+	});
 	
 
 }
@@ -113,7 +115,7 @@ function initMap() {
 	// Create the DIV to hold the control and call the CenterControl()
 	// constructor passing in this DIV.
 	var rulerControlDiv = document.createElement('div');
-	var rulerControl = new RulerControl(rulerControlDiv, map);
+	var rulerControl = new RulerControl(rulerControlDiv);
 	rulerControlDiv.index = 1;
 	map.controls[google.maps.ControlPosition.TOP_RIGHT].push(
 		rulerControlDiv);
