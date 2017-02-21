@@ -47,7 +47,9 @@ function showPolyRemoveMenu(thisEvent) {
 
 	var a = document.getElementById("menu1");
 	a.addEventListener("click",function() {
-		this.setMap(null);
+//		this.setMap(null);
+		console.log(this);
+		console.log(thisEvent.placeId);
 		$('.contextmenu').remove();
 		return false;
 	});
