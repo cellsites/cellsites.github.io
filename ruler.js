@@ -26,17 +26,20 @@ function addruler(rulerposition) {
 		strokeWeight: 7
 	});
 	rulerpoly.setMap(map);
+	ruler1.bindTo('visible', ruler2);
+	ruler2.bindTo('visible', ruler1);
+	rulerpoly.bindTo('visible', ruler1);
 
 	var ruler1label = new Label({ map: map });
 	var ruler2label = new Label({ map: map });
 	ruler1label.bindTo('position', ruler1);
 	ruler1label.bindTo('visible', ruler1);
 	ruler1label.bindTo('clickable', ruler1);
-	ruler1label.bindTo('zIndex', ruler1);
+//	ruler1label.bindTo('zIndex', ruler1);
 	ruler2label.bindTo('position', ruler2);
 	ruler2label.bindTo('visible', ruler2);
 	ruler2label.bindTo('clickable', ruler2);
-	ruler2label.bindTo('zIndex', ruler2);
+//	ruler2label.bindTo('zIndex', ruler2);
 
 
 	ruler1label.set('text',distandbear(ruler1.getPosition(),ruler2.getPosition()));
@@ -49,12 +52,25 @@ function addruler(rulerposition) {
 		ruler2label.set('text',distandbear(ruler2.getPosition(),ruler1.getPosition()));
 	});
 
+	google.maps.event.addListener(ruler1, 'click', function(event) {
+		var menudetails = [
+			["Remove", ruler1.setVisible, false]
+		];
+		showContextMenu(event,menudetails);	
+	});
+
 	google.maps.event.addListener(ruler2, 'drag', function() {
 		rulerpoly.setPath([ruler1.getPosition(), ruler2.getPosition()]);
 		ruler1label.set('text',distandbear(ruler1.getPosition(),ruler2.getPosition()));
 		ruler2label.set('text',distandbear(ruler2.getPosition(),ruler1.getPosition()));
 	});
 
+	google.maps.event.addListener(ruler2, 'click', function(event) {
+		var menudetails = [
+			["Remove", ruler2.setVisible, false]
+		];
+		showContextMenu(event,menudetails);	
+	});
 }
 
 
