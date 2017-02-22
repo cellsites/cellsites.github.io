@@ -10,7 +10,7 @@ function showContextMenu(kmlEvent, menudetails) {
 	contextmenuDir.innerHTML = '';
 	nummenus = menudetails.length;
 	for (var i = 0; i < nummenus; i++) {
-		contextmenuDir.innerHTML += '<a id="menu"' + i + ' href="#"><div class="context">' + menudetails[i][0] + '</div></a>';
+		contextmenuDir.innerHTML += '<a id="menu' + i + '" href="#"><div class="context">' + menudetails[i][0] + '</div></a>';
 	}
 	$(map.getDiv()).append(contextmenuDir);
 	for (var i = 0; i < nummenus; i++) {
