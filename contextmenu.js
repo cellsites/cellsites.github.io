@@ -1,6 +1,6 @@
 // Code adapted from http://googleapitips.blogspot.ca/2010/06/how-to-add-context-menu-to-google-maps.html
 
-function showContextMenu(kmlEvent, menudetails[][]) {
+function showContextMenu(kmlEvent, menudetails) {
 	var projection;
 	var contextmenuDir;
 	projection = map.getProjection();
