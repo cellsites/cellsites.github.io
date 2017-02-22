@@ -22,7 +22,7 @@ Label.prototype = new google.maps.OverlayView;
 
 // Implement onAdd
 Label.prototype.onAdd = function() {
-  var pane = this.getPanes().overlayImage;
+  var pane = this.getPanes().overlayLayer;
   pane.appendChild(this.div_);
 
 
