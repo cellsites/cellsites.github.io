@@ -77,9 +77,9 @@ function initMap() {
 	ctaLayer.setMap(map);
 	ctaLayer.addListener('click', function(kmlEvent) {
 		var menudetails = [
-			{"Show Description", doShowDescription, kmlEvent},
-			{"Show Sectors", doShowSectors, kmlEvent},
-			{"Add Ruler", addruler, kmlEvent.latLng}
+			["Show Description", doShowDescription, kmlEvent],
+			["Show Sectors", doShowSectors, kmlEvent],
+			["Add Ruler", addruler, kmlEvent.latLng]
 		];
 		showContextMenu(kmlEvent,menudetails);
 	});
