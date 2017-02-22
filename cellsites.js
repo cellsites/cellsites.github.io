@@ -61,8 +61,8 @@ function doShowSectors(kmlEvent) {
 	sectorspoly.setMap(map);
 	google.maps.event.addListener(sectorspoly,'click', function(event) {
 		var menudetails = [
-			["Remove", function() {
-					sectorspoly.setMap;
+			["Remove", function(themap) {
+					sectorspoly.setMap(themap);
 				}, null]
 		];
 		showContextMenu(event,menudetails);

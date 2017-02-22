@@ -54,8 +54,8 @@ function addruler(rulerposition) {
 
 	google.maps.event.addListener(ruler1, 'click', function(event) {
 		var menudetails = [
-			["Remove", function() {
-					ruler1.setVisible;
+			["Remove", function(visible) {
+					ruler1.setVisible(visible);
 				}, false]
 		];
 		showContextMenu(event,menudetails);	
@@ -69,8 +69,8 @@ function addruler(rulerposition) {
 
 	google.maps.event.addListener(ruler2, 'click', function(event) {
 		var menudetails = [
-			["Remove", function() {
-					ruler2.setVisible;
+			["Remove", function(visible) {
+					ruler2.setVisible(visible);
 				}, false]
 		];
 		showContextMenu(event,menudetails);	
