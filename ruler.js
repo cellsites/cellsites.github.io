@@ -26,7 +26,7 @@ function addruler(rulerposition) {
 		strokeWeight: 7
 	});
 	rulerpoly.setMap(map);
-	ruler1.bindTo('visible', ruler2);
+//	ruler1.bindTo('visible', ruler2);
 	ruler2.bindTo('visible', ruler1);
 	rulerpoly.bindTo('visible', ruler1);
 
