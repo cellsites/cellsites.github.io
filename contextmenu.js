@@ -27,27 +27,6 @@ function showContextMenu(kmlEvent, menudetails) {
 //	console.log(kmlEvent.latLng.lat() + ' - ' + kmlEvent.latLng.lng());
 }
 
-function showPolyRemoveMenu(thisEvent,sectorspoly) {
-	var projection;
-	var contextmenuDir;
-	projection = map.getProjection();
-	$('.contextmenu').remove();
-	contextmenuDir = document.createElement("div");
-	contextmenuDir.className = 'contextmenu';
-	contextmenuDir.innerHTML = '<a id="menu1" href="#"><div class="context">Remove</div></a>';
-	$(map.getDiv()).append(contextmenuDir);
-
-	var a = document.getElementById("menu1");
-	a.addEventListener("click",function() {
-		sectorspoly.setMap(null);
-		$('.contextmenu').remove();
-		return false;
-	});
-
-	setMenuXY(thisEvent.latLng);
-	contextmenuDir.style.visibility = "visible";
-}
-
 function getCanvasXY(currentLatLng) {
 	var scale = Math.pow(2, map.getZoom());
 	var nw = new google.maps.LatLng(

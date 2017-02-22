@@ -60,7 +60,10 @@ function doShowSectors(kmlEvent) {
 	});
 	sectorspoly.setMap(map);
 	google.maps.event.addListener(sectorspoly,'click', function(event) {
-		showPolyRemoveMenu(event,sectorspoly);
+		var menudetails = [
+			["Remove", sectorspoly.setMap, null]
+		];
+		showContextMenu(event,menudetails);
 	});
 }
 

@@ -29,8 +29,14 @@ function addruler(rulerposition) {
 
 	var ruler1label = new Label({ map: map });
 	var ruler2label = new Label({ map: map });
-	ruler1label.bindTo('position', ruler1, 'position');
-	ruler2label.bindTo('position', ruler2, 'position');
+	ruler1label.bindTo('position', ruler1);
+	ruler1label.bindTo('visible', ruler1);
+	ruler1label.bindTo('clickable', ruler1);
+	ruler1label.bindTo('zIndex', ruler1);
+	ruler2label.bindTo('position', ruler2);
+	ruler2label.bindTo('visible', ruler2);
+	ruler2label.bindTo('clickable', ruler2);
+	ruler2label.bindTo('zIndex', ruler2);
 
 
 	ruler1label.set('text',distandbear(ruler1.getPosition(),ruler2.getPosition()));
