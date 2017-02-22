@@ -3,6 +3,7 @@
 function showContextMenu(kmlEvent, menudetails) {
 	var projection;
 	var contextmenuDir;
+	var menudetails2 = menudetails;
 	projection = map.getProjection();
 	$('.contextmenu').remove();
 	contextmenuDir = document.createElement("div");
@@ -10,16 +11,13 @@ function showContextMenu(kmlEvent, menudetails) {
 	contextmenuDir.innerHTML = '';
 	nummenus = menudetails.length;
 	for (var i = 0; i < nummenus; i++) {
-		contextmenuDir.innerHTML += '<a id="menu' + i + '" href="#"><div class="context">' + menudetails[i][0] + '</div></a>';
+		contextmenuDir.innerHTML += '<a id="menu' + i + '" href="#"><div class="context">' + menudetails2[i][0] + '</div></a>';
 	}
 	$(map.getDiv()).append(contextmenuDir);
 	for (var i = 0; i < nummenus; i++) {
 		var a = document.getElementById("menu" + i);
 		a.addEventListener("click",function() {
-			console.log(menudetails[i][0]);
-			console.log(menudetails[i][2]);
-			console.log(menudetails[i][1]);
-			Function.prototype.call.call(menudetails[i][1],this,menudetails[i][2]);
+			menudetails2[i][1](menudetails[i][2]);
 			$('.contextmenu').remove();
 			return false; // return false is supposed to prevent following the link but doesn't seem to work in all browsers
 		});
