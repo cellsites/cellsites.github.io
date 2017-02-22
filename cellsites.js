@@ -1,34 +1,5 @@
 var map;
 
-function RulerControl(controlDiv) {
-	// Adapted from https://developers.google.com/maps/documentation/javascript/examples/control-custom
-	
-	// Set CSS for the control border.
-	var controlUI = document.createElement('div');
-	controlUI.style.backgroundColor = '#fff';
-	controlUI.style.border = '2px solid #fff';
-	controlUI.style.borderRadius = '3px';
-	controlUI.style.boxShadow = '0 2px 6px rgba(0,0,0,.3)';
-	controlUI.style.cursor = 'pointer';
-	controlUI.style.marginBottom = '22px';
-	controlUI.style.textAlign = 'center';
-	controlUI.title = 'Click to add a ruler';
-	controlDiv.appendChild(controlUI);
-	// Set CSS for the control interior.
-	var controlText = document.createElement('div');
-	controlText.style.color = 'rgb(25,25,25)';
-	controlText.style.fontFamily = 'Roboto,Arial,sans-serif';
-	controlText.style.fontSize = '16px';
-	controlText.style.lineHeight = '38px';
-	controlText.style.paddingLeft = '5px';
-	controlText.style.paddingRight = '5px';
-	controlText.innerHTML = 'Add Ruler';
-	controlUI.appendChild(controlText);
-	controlUI.addEventListener('click', function() {
-		addruler(map.getCenter());
-	});
-}
-
 function doShowDescription(kmlEvent) {
 	var infowindow = new google.maps.InfoWindow({
 		content: kmlEvent.featureData.description,
@@ -91,8 +62,6 @@ function doShowSectors(kmlEvent) {
 	google.maps.event.addListener(sectorspoly,'click', function(event) {
 		showPolyRemoveMenu(event,sectorspoly);
 	});
-	
-
 }
 
 function initMap() {
@@ -107,7 +76,12 @@ function initMap() {
 	});
 	ctaLayer.setMap(map);
 	ctaLayer.addListener('click', function(kmlEvent) {
-		showContextMenu(kmlEvent);
+		var menudetails = [
+			{"Show Description", doShowDescription, kmlEvent},
+			{"Show Sectors", doShowSectors, kmlEvent},
+			{"Add Ruler", addruler, kmlEvent.latLng}
+		];
+		showContextMenu(kmlEvent,menudetails);
 	});
 	
 /* 
@@ -173,3 +147,38 @@ function initMap() {
 		searchBox.setBounds(bounds);
 	});
 }
+
+/*
+
+// Button removed because not needed with add ruler in context menu
+
+function RulerControl(controlDiv) {
+	// Adapted from https://developers.google.com/maps/documentation/javascript/examples/control-custom
+	
+	// Set CSS for the control border.
+	var controlUI = document.createElement('div');
+	controlUI.style.backgroundColor = '#fff';
+	controlUI.style.border = '2px solid #fff';
+	controlUI.style.borderRadius = '3px';
+	controlUI.style.boxShadow = '0 2px 6px rgba(0,0,0,.3)';
+	controlUI.style.cursor = 'pointer';
+	controlUI.style.marginBottom = '22px';
+	controlUI.style.textAlign = 'center';
+	controlUI.title = 'Click to add a ruler';
+	controlDiv.appendChild(controlUI);
+	// Set CSS for the control interior.
+	var controlText = document.createElement('div');
+	controlText.style.color = 'rgb(25,25,25)';
+	controlText.style.fontFamily = 'Roboto,Arial,sans-serif';
+	controlText.style.fontSize = '16px';
+	controlText.style.lineHeight = '38px';
+	controlText.style.paddingLeft = '5px';
+	controlText.style.paddingRight = '5px';
+	controlText.innerHTML = 'Add Ruler';
+	controlUI.appendChild(controlText);
+	controlUI.addEventListener('click', function() {
+		addruler(map.getCenter());
+	});
+}
+
+*/

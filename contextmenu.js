@@ -1,35 +1,26 @@
 // Code adapted from http://googleapitips.blogspot.ca/2010/06/how-to-add-context-menu-to-google-maps.html
 
-function showContextMenu(kmlEvent) {
+function showContextMenu(kmlEvent, menudetails) {
 	var projection;
 	var contextmenuDir;
 	projection = map.getProjection();
 	$('.contextmenu').remove();
 	contextmenuDir = document.createElement("div");
 	contextmenuDir.className = 'contextmenu';
-	contextmenuDir.innerHTML = '<a id="menu1" href="#"><div class="context">Show Description</div></a>'
-								+ '<a id="menu2" href="#"><div class="context">Show Sectors</div></a>'
-								+ '<a id="menu3" href="#"><div class="context">Add Ruler</div></a>'
+	contextmenuDir.innerHTML = '';
+	nummenus = menudetails.length;
+	for (var i = 0; i < nummenus; i++) {
+		contextmenuDir.innerHTML += '<a id="menu"' + i + ' href="#"><div class="context">' + menudetails[i][0] + '</div></a>';
+	}
 	$(map.getDiv()).append(contextmenuDir);
-	var a = document.getElementById("menu1");
-	a.addEventListener("click",function() {
-		doShowDescription(kmlEvent);
-		$('.contextmenu').remove();
-		return false;
-	});
-	a = document.getElementById("menu2");
-	a.addEventListener("click",function() {
-		doShowSectors(kmlEvent);
-		$('.contextmenu').remove();
-		return false;
-	});
-	a = document.getElementById("menu3");
-	a.addEventListener("click",function() {
-		addruler(kmlEvent.latLng);
-		$('.contextmenu').remove();
-		return false;  // return false is supposed to prevent following the link but doesn't seem to work in all browsers
-	});
-	
+	for (var i = 0; i < nummenus; i++) {
+		var a = document.getElementById("menu" + i);
+		a.addEventListener("click",function() {
+			menudetails[i][1](menudetails[i][2]);
+			$('.contextmenu').remove();
+			return false; // return false is supposed to prevent following the link but doesn't seem to work in all browsers
+		});
+	}
 	setMenuXY(kmlEvent.latLng);
 	contextmenuDir.style.visibility = "visible";
 //	console.log(kmlEvent.latLng.lat() + ' - ' + kmlEvent.latLng.lng());
