@@ -15,10 +15,9 @@ function showContextMenu(kmlEvent, menudetails) {
 	$(map.getDiv()).append(contextmenuDir);
 	for (var i = 0; i < nummenus; i++) {
 		var a = document.getElementById("menu" + i);
-		var functiontocall = menudetails[i][1];
-		var valuetopass = menudetails[i][2];
 		a.addEventListener("click",function() {
-			functiontocall(valuetopass);
+			var menunum = Number(this.id.substring(this.id.length - 1));
+			menudetails[menunum][1](menudetails[menunum][2]); //execute function specified in menudetails with parameter specified in menudetails
 			$('.contextmenu').remove();
 			return false; // return false is supposed to prevent following the link but doesn't seem to work in all browsers
 		});
