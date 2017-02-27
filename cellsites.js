@@ -14,7 +14,9 @@ function doShowSectors(kmlEvent) {
 	// HTML table parsing portion adapted from http://stackoverflow.com/questions/4247838/best-way-to-parse-html-in-javascript
 
 	var azimuths = [];
-	var azimuthi = 0;
+	var azimuthsi = [0,0,0,0,0,0,0];
+	var azcolours = ['#770000','#AA0000','#FF0000','#FFFF00','#0000FF','#00FF00','#000000' ]; 
+	var thistype = 99;
 	
 	var $tbl = $('<tbody>').html(kmlEvent.featureData.description);
 	var $structure = $tbl.find('tr');
@@ -22,17 +24,44 @@ function doShowSectors(kmlEvent) {
 	var $datarows = $structure.nextAll('tr');
 	$datarows.each(function(i){
 		$(this).find('td').each(function(index,element) {
+			if (structure[index] == 'type') {
+				switch($(element).text()) {
+					case "CELL - SASKTEL HSPA":
+						thistype = 0;
+						break;
+					case "PCS - SASKTEL HSPA":
+						thistype = 1;
+						break;
+					case "AWS - SASKTEL HSPA":
+						thistype = 2;
+						break;
+					case "CELL - SASKTEL CDMA":
+						thistype = 3;
+						break;
+					case "AWS - SASKTEL LTE":
+						thistype = 4;
+						break;
+					case "BRS - SASKTEL FUSION":
+						thistype = 5;
+						break;
+					default:
+						thistype = 6;
+						break;
+				}
+			}
 			if (structure[index] == 'azimuth') {
-				var numaz = azimuths.length;
 				var azexists = -1;
-				for (var i2 = 0; i2 < numaz; i2++) {
-					if (azimuths[i2] == $(element).text()) {
+				for (var i2 = 0; i2 < azimuthsi[thistype]; i2++) {
+					if (azimuths[thistype][i2] == $(element).text()) {
 						azexists = i2;
 					}
 				}
 				if (azexists == -1) {
-					azimuths[azimuthi] = $(element).text();
-					azimuthi++;
+					if(azimuthsi[thistype] == 0) {
+						azimuths[thistype] = [];
+					}
+					azimuths[thistype][azimuthsi[thistype]] = $(element).text();
+					azimuthsi[thistype]++;
 				}
 			}
 		});
@@ -40,33 +69,45 @@ function doShowSectors(kmlEvent) {
 	
 	// triangle drawing adapted from https://developers.google.com/maps/documentation/javascript/examples/polygon-simple
 
-	var triangles = [];
     var triangle1p1 = kmlEvent.latLng;
-
-	var numaz = azimuths.length;
-	for (var i = 0; i < numaz; i++) {
-		triangles[(i * 3)] = triangle1p1;
-		triangles[(i * 3) + 1] = destVincenty(triangle1p1.lat(), triangle1p1.lng(),(Number(azimuths[i]) - 15),1500);
-		triangles[(i * 3) + 2] = destVincenty(triangle1p1.lat(), triangle1p1.lng(),(Number(azimuths[i]) + 15),1500);
-	};
-	triangles[(i * 3)] = triangle1p1;
-	var sectorspoly = new google.maps.Polygon({
-		paths: triangles,
-		strokeColor: '#FF0000',
-		strokeOpacity: 0.8,
-		strokeWeight: 2,
-		fillColor: '#FF0000',
-		fillOpacity: 0.35
-	});
-	sectorspoly.setMap(map);
-	google.maps.event.addListener(sectorspoly,'click', function(event) {
-		var menudetails = [
-			["Remove", function(themap) {
-					sectorspoly.setMap(themap);
-				}, null]
-		];
-		showContextMenu(event,menudetails);
-	});
+    var firstpoly = new google.maps.Polygon();
+    var numpoly = 0;
+    
+    var numtypes = azimuths.length;
+	for (var typesi = 0; typesi < numtypes; typesi++) {
+		if (azimuthsi[typesi] > 0) {
+			var triangles = [];
+			for (var i = 0; i < azimuthsi[typesi]; i++) {
+				triangles[(i * 3)] = triangle1p1;
+				triangles[(i * 3) + 1] = destVincenty(triangle1p1.lat(), triangle1p1.lng(),(Number(azimuths[typesi][i]) - 15),1500);
+				triangles[(i * 3) + 2] = destVincenty(triangle1p1.lat(), triangle1p1.lng(),(Number(azimuths[typesi][i]) + 15),1500);
+			};
+			triangles[(i * 3)] = triangle1p1;
+			var sectorspoly = new google.maps.Polygon({
+				paths: triangles,
+				strokeColor: azcolours[typesi],
+				strokeOpacity: 0.8,
+				strokeWeight: 2,
+				fillColor: azcolours[typesi],
+				fillOpacity: 0.35
+			});
+			sectorspoly.setMap(map);
+			if (numpoly == 0) {
+				firstpoly = sectorspoly;
+			} else {
+				sectorspoly.bindTo('map',firstpoly);
+			}
+			google.maps.event.addListener(sectorspoly,'click', function(event) {
+				var menudetails = [
+					["Remove", function(themap) {
+							sectorspoly.setMap(themap);
+						}, null]
+				];
+				showContextMenu(event,menudetails);
+			});
+			numpoly++;
+		}
+	}
 }
 
 function initMap() {
