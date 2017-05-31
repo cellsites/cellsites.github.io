@@ -182,32 +182,28 @@ def calcgridsquares(latnumstr,lonnumstr):
       gridsquare = '%s%s%s%s%s%s' % (lonzone,latzone,digraph1,digraph2,eastingstr,northingstr)
 
   return gridsquare
-  
 
-def main(argv=None):
-  print 'Filtering and Calculating Grid Squares'
-
+def getsorteddata(datafile,filterword):
   unsorteddata=[]
 
-  with open('../site_data.csv', 'rb') as csvfile:
+  with open(datafile, 'rb') as csvfile:
     reader = csv.reader(csvfile, quotechar='"')
     for row in reader:
-      if 'sasktel' in ' '.join(row).lower():
+      if filterword in ' '.join(row).lower():
         liclat = row[13]
         liclon = row[14]
         gridsquare = calcgridsquares(liclat,liclon)
         unsorteddata.append([row[6],row[7],row[11],row[13],row[14],row[25],row[15],row[21],row[5],gridsquare])
 
-  print 'Sorting Data'
-  sorteddata = sorted(unsorteddata, key=lambda x: (x[9],float(x[3]),float(x[4]),float(x[0]),float(x[1]),float(x[5])))
-
-  print 'Writing KML File'
+  return sorted(unsorteddata, key=lambda x: (x[9],float(x[3]),float(x[4]),float(x[0]),float(x[1]),x[5]))
+  
+def genkmlfile(carriername,sorteddata,iconcolor):
   lastlat='_first_'
   lastlon='_first_'
   lastloc=''
   tabledata=''
 
-  with open('sasktel_sites.kml', 'w') as kmloutput:
+  with open(carriername + '_sites.kml', 'w') as kmloutput:
     kmloutput.write('<kml xmlns="http://earth.google.com/kml/2.0">\n')
     kmloutput.write('<Folder>\n')
     for row in sorteddata:
@@ -222,13 +218,13 @@ def main(argv=None):
       lictype = row[8]
 
       if (emmisi == '1M25F9W'):
-        lictype += ' - SASKTEL CDMA'
+        lictype += ' - ' + carriername.upper() + ' CDMA'
       elif (emmisi == '5M00F9W'):
-        lictype += ' - SASKTEL HSPA'
+        lictype += ' - ' + carriername.upper() + ' HSPA'
       elif (emmisi == '10M0F9W'):
-        lictype += ' - SASKTEL LTE'
+        lictype += ' - ' + carriername.upper() + ' LTE'
       elif (emmisi == '20M0F9W'):
-        lictype += ' - SASKTEL FUSION'
+        lictype += ' - ' + carriername.upper() + ' LTE-TDD'
       else:
         lictype += ' - ' + emmisi
 
@@ -250,19 +246,21 @@ def main(argv=None):
       if (pointdist > 300):
         if (lastlat != '_first_'):
           kmloutput.write(tabledata)
-          kmloutput.write('</table></description>\n')
+          kmloutput.write('</table>]]>\n')
+          kmloutput.write('</description>\n')
           kmloutput.write('</Placemark>\n')
           tabledata=''
         liclatdec=liclat
         liclondec=liclon
         kmloutput.write('<Placemark>\n')
         kmloutput.write('<name>' + licloc[:12] + '</name>\n')
-        kmloutput.write('<Style><IconStyle><color>ffff0000</color><Icon><href>http://maps.google.com/mapfiles/kml/shapes/yen.png</href></Icon></IconStyle></Style>\n')
+        kmloutput.write('<Style><IconStyle><color>' + iconcolor + '</color><Icon><href>http://maps.google.com/mapfiles/kml/shapes/yen.png</href></Icon></IconStyle></Style>\n')
         kmloutput.write('<Point>\n')
         kmloutput.write('<altitudeMode>absolute</altitudeMode>\n')
         kmloutput.write('<coordinates>' + liclondec + ',' + liclatdec + '</coordinates>\n')
         kmloutput.write('</Point>\n')
-        kmloutput.write('<description><b>' + licloc + '(' + elevat + ' metres)</b><br/><table width="750"><tr><th><b>TYPE</b></th><th><b>TXFREQ</b></th><th><b>RXFREQ</b></th><th><b>AZIMUTH</b></th><th><b>LAT</b></th><th><b>LON</b></th><th><b>SITE NAME</b></th></tr>\n')
+        kmloutput.write('<description>\n')
+        kmloutput.write('<![CDATA[<b>' + licloc + '(' + elevat + ' metres)</b><br/><table width="750"><tr><th><b>TYPE</b></th><th><b>TXFREQ</b></th><th><b>RXFREQ</b></th><th><b>AZIMUTH</b></th><th><b>LAT</b></th><th><b>LON</b></th><th><b>SITE NAME</b></th></tr>\n')
         lattoshow = liclatdec
         lontoshow = liclondec
         lastlat = liclat
@@ -284,20 +282,46 @@ def main(argv=None):
         loctoshow = licloc
       tabledata += '<tr><td>' + lictype + '</td><td>' + txfreq + '</td><td>' + rxfreq + '</td><td>' + azimut + '</td><td>' + lattoshow + '</td><td>' + lontoshow + '</td><td>' + loctoshow + '</td></tr>\n'
       lastloc = licloc
-    kmloutput.write('</table></description>\n')
+    kmloutput.write('</table>]]>\n')
+    kmloutput.write('</description>\n')
     kmloutput.write('</Placemark>\n')
     kmloutput.write('</Folder>\n')
     kmloutput.write('</kml>\n')
     kmloutput.close()
-    if (os.path.isfile('sasktel_sites.kmz')):
-      os.remove('sasktel_sites.kmz')
-    with zipfile.ZipFile('sasktel_sites.kmz', 'w', zipfile.ZIP_DEFLATED) as kmzoutput:
-      kmzoutput.write('sasktel_sites.kml')
-      kmzoutput.close()
-    if (os.path.isfile('sasktel_sites.kml')):
-      os.remove('sasktel_sites.kml')
-    print 'Done Writing KMZ File'
 
+def convertkmltokmz(carriername):
+  if (os.path.isfile(carriername + '_sites.kmz')):
+    os.remove(carriername + '_sites.kmz')
+  with zipfile.ZipFile(carriername + '_sites.kmz', 'w', zipfile.ZIP_DEFLATED) as kmzoutput:
+    kmzoutput.write(carriername + '_sites.kml')
+    kmzoutput.close()
+  if (os.path.isfile(carriername + '_sites.kml')):
+    os.remove(carriername + '_sites.kml')
+#    print 'Done Writing KMZ File'
+
+
+
+def main(argv=None):
+  print 'Getting SaskTel Data'
+  carrierdata=getsorteddata('../site_data.csv','sasktel')
+  print 'Writing SaskTel KML File'
+  genkmlfile('sasktel',carrierdata,'ffff0000')
+  print 'Converting SaskTel KML to KMZ'
+  convertkmltokmz('sasktel')
+  
+  print 'Getting MTS Data'
+  carrierdata=getsorteddata('../site_data.csv','mts inc')
+  print 'Writing MTS KML File'
+  genkmlfile('mts',carrierdata,'ff00ff00')
+  print 'Converting MTS KML to KMZ'
+  convertkmltokmz('mts')
+
+  print 'Getting Telus Data'
+  carrierdata=getsorteddata('../site_data.csv','telus')
+  print 'Writing Telus KML File'
+  genkmlfile('telus',carrierdata,'ff0000ff')
+  print 'Converting Telus KML to KMZ'
+  convertkmltokmz('telus')
 
 main()
 
