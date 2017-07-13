@@ -26,22 +26,22 @@ function doShowSectors(kmlEvent) {
 		$(this).find('td').each(function(index,element) {
 			if (structure[index] == 'type') {
 				switch($(element).text()) {
-					case "CELL - SASKTEL HSPA":
+					case "CELL - 5M00F9W":
 						thistype = 0;
 						break;
-					case "PCS - SASKTEL HSPA":
+					case "PCS - 5M00F9W":
 						thistype = 1;
 						break;
-					case "AWS - SASKTEL HSPA":
+					case "AWS - 5M00F9W":
 						thistype = 2;
 						break;
-					case "CELL - SASKTEL CDMA":
+					case "CELL - 1M25F9W":
 						thistype = 3;
 						break;
-					case "AWS - SASKTEL LTE":
+					case "AWS - 10M0F9W":
 						thistype = 4;
 						break;
-					case "BRS - SASKTEL FUSION":
+					case "BRS - 10M0F9W":
 						thistype = 5;
 						break;
 					default:
@@ -117,7 +117,7 @@ function initMap() {
 		scaleControl: true
 	});
 	var ctaLayer = new google.maps.KmlLayer({
-		url: 'http://cellsites.github.io/sasktel_sites.kmz',
+		url: 'http://cellsites.github.io/sasktel_sites.kmz?ver=1',
 		suppressInfoWindows: true
 	});
 	ctaLayer.setMap(map);
