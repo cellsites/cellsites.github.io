@@ -195,7 +195,7 @@ def getsorteddata(datafile,filterword):
         gridsquare = calcgridsquares(liclat,liclon)
         unsorteddata.append([row[6],row[7],row[11],row[13],row[14],row[25],row[15],row[16],row[21],row[5],row[31],gridsquare])
 
-  return sorted(unsorteddata, key=lambda x: (x[11],float(x[3]),float(x[4]),float(x[0]),float(x[1]),x[5]))
+  return sorted(unsorteddata, key=lambda x: (x[11],float(x[3]),float(x[4]),float(x[0]),x[1],x[5]))
   
 def genkmlfile(carriername,sorteddata,iconcolor):
   lastlat='_first_'
