@@ -309,12 +309,12 @@ def main(argv=None):
   print 'Converting SaskTel KML to KMZ'
   convertkmltokmz('sasktel')
   
-  print 'Getting MTS Data'
-  carrierdata=getsorteddata('../site_data.csv','mts inc')
-  print 'Writing MTS KML File'
-  genkmlfile('mts',carrierdata,'ff00ff00')
-  print 'Converting MTS KML to KMZ'
-  convertkmltokmz('mts')
+  print 'Getting Bell Data'
+  carrierdata=getsorteddata('../site_data.csv','bell ')
+  print 'Writing Bell KML File'
+  genkmlfile('bell',carrierdata,'ff00ff00')
+  print 'Converting BELL KML to KMZ'
+  convertkmltokmz('bell')
 
   print 'Getting Telus Data'
   carrierdata=getsorteddata('../site_data.csv','telus')
