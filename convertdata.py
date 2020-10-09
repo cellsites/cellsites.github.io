@@ -193,7 +193,7 @@ def getsorteddata(datafile,filterword):
         liclat = row[13]
         liclon = row[14]
         gridsquare = calcgridsquares(liclat,liclon)
-        unsorteddata.append([row[6],row[7],row[11],row[13],row[14],row[25],row[15],row[16],row[21],row[5],row[31],gridsquare])
+        unsorteddata.append([row[6],row[7],row[11],row[13],row[14],row[25],row[15],row[16],row[21],row[5],row[31],row[32],gridsquare])
 
   return sorted(unsorteddata, key=lambda x: (x[11],float(x[3]),float(x[4]),float(x[0]),x[1],x[5]))
   
@@ -202,6 +202,7 @@ def genkmlfile(carriername,sorteddata,iconcolor):
   lastlon='_first_'
   lastloc=''
   lastmoddate=''
+  lastupldate=''
   tabledata=''
 
   with open(carriername + '_sites.kml', 'w') as kmloutput:
@@ -219,6 +220,7 @@ def genkmlfile(carriername,sorteddata,iconcolor):
       emmisi = row[8]
       lictype = row[9] + ' - ' + emmisi
       lastmodified = row[10]
+      lastuploaded = row[11]
 
       pointdist = 305
       if (lastlat != '_first_'):
@@ -252,14 +254,16 @@ def genkmlfile(carriername,sorteddata,iconcolor):
         kmloutput.write('<coordinates>' + liclondec + ',' + liclatdec + '</coordinates>\n')
         kmloutput.write('</Point>\n')
         kmloutput.write('<description>\n')
-        kmloutput.write('<![CDATA[<b>' + licloc + '(' + elevat + ' + ' + anthgt + ' metres)</b><br/><table width="750"><tr><th><b>TYPE</b></th><th><b>TXFREQ</b></th><th><b>RXFREQ</b></th><th><b>AZIMUTH</b></th><th><b>LAT</b></th><th><b>LON</b></th><th><b>SITE NAME</b></th><th><b>UPDATED</b></th></tr>\n')
+        kmloutput.write('<![CDATA[<b>' + licloc + '(' + elevat + ' + ' + anthgt + ' metres)</b><br/><table width="750"><tr><th><b>TYPE</b></th><th><b>TXFREQ</b></th><th><b>RXFREQ</b></th><th><b>AZIMUTH</b></th><th><b>LAT</b></th><th><b>LON</b></th><th><b>SITE NAME</b></th><th><b>UPDATED</b></th><th><b>UPLOADED</b></th></tr>\n')
         lattoshow = liclatdec
         lontoshow = liclondec
         moddatetoshow = lastmodified
-        
+        upldatetoshow = lastuploaded
+
         lastlat = liclat
         lastlon = liclon
         lastmoddate = lastmodified
+        lastupldate = lastuploaded
       else:
         if (liclat == lastlat):
           lattoshow = ''
@@ -276,11 +280,16 @@ def genkmlfile(carriername,sorteddata,iconcolor):
         else:
           moddatetoshow = lastmodified
           lastmoddate = lastmodified
+        if (lastuploaded == lastupldate):
+          upldatetoshow = ''
+        else:
+          upldatetoshow = lastuploaded
+          lastupldate = lastuploaded
       if (licloc == lastloc):
         loctoshow = ''
       else:
         loctoshow = licloc
-      tabledata += '<tr><td>' + lictype + '</td><td>' + txfreq + '</td><td>' + rxfreq + '</td><td>' + azimut + '</td><td>' + lattoshow + '</td><td>' + lontoshow + '</td><td>' + loctoshow + '</td><td>' + moddatetoshow + '</td></tr>\n'
+      tabledata += '<tr><td>' + lictype + '</td><td>' + txfreq + '</td><td>' + rxfreq + '</td><td>' + azimut + '</td><td>' + lattoshow + '</td><td>' + lontoshow + '</td><td>' + loctoshow + '</td><td>' + moddatetoshow + '</td><td>' + upldatetoshow + '</td></tr>\n'
       lastloc = licloc
     kmloutput.write('</table>]]>\n')
     kmloutput.write('</description>\n')
