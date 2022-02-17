@@ -11,7 +11,7 @@ equatorialRadius = 6378137.00
 polarRadius = 6356752.314
 flattening = 0.00335281066474748
 inverseFlattening = 298.257223563
-rm = pow(equatorialRadius * polarRadius, 1 / 2.0)  
+rm = pow(equatorialRadius * polarRadius, 1 / 2.0)
 
 # scale factor
 k0 = 0.9996
@@ -24,7 +24,7 @@ n = (equatorialRadius - polarRadius) / (equatorialRadius + polarRadius)
 
 # Meridional Arc
 A0 = 6367449.146  # Mean Earth Radius
-B0 = 16038.42955  
+B0 = 16038.42955
 C0 = 16.83261333
 D0 = 0.021984404
 E0 = 0.000312705
@@ -81,7 +81,7 @@ def getLatZone(latitude):
       else:
         i += 1
         continue
-  
+
   if (latIndex == -1):
     latIndex = 0
   if (lat >= 0):
@@ -102,7 +102,7 @@ def getNorthing(latitude, K1, K2, K3, p):
   if (latitude < 0.0):
     northing = 100000000 + northing
   return northing
-  
+
 class Digraphs(object):
   digraph1 = {1:'A',2:'B',3:'C',4:'D',5:'E',6:'F',7:'G',8:'H',9:'J',10:'K',11:'L',12:'M',13:'N',14:'P',15:'Q',16:'R',17:'S',18:'T',19:'U',20:'V',21:'W',22:'X',23:'Y',24:'Z'}
   digraph2 = {0:'V',1:'A',2:'B',3:'C',4:'D',5:'E',6:'F',7:'G',8:'H',9:'J',10:'K',11:'L',12:'M',13:'N',14:'P',15:'Q',16:'R',17:'S',18:'T',19:'U',20:'V'}
@@ -186,7 +186,7 @@ def calcgridsquares(latnumstr,lonnumstr):
 def getsorteddata(datafile,filterword):
   unsorteddata=[]
 
-  with open(datafile, 'rb') as csvfile:
+  with open(datafile, 'rt', encoding='latin-1') as csvfile:
     reader = csv.reader(csvfile, quotechar='"')
     for row in reader:
       if filterword in ' '.join(row).lower():
@@ -196,7 +196,7 @@ def getsorteddata(datafile,filterword):
         unsorteddata.append([row[6],row[7],row[11],row[13],row[14],row[25],row[15],row[16],row[21],row[5],row[31],row[32],gridsquare])
 
   return sorted(unsorteddata, key=lambda x: (x[12],float(x[3]),float(x[4]),float(x[0]),x[1],x[5]))
-  
+
 def genkmlfile(carriername,sorteddata,iconcolor):
   lastlat='_first_'
   lastlon='_first_'
@@ -232,7 +232,7 @@ def genkmlfile(carriername,sorteddata,iconcolor):
         liclatrad = degreeToRadian(liclatnum)
         latdiffrad = degreeToRadian(liclatnum - lastlatnum)
         londiffrad = degreeToRadian(liclonnum - lastlonnum)
-        
+
         a = math.sin(latdiffrad/2) * math.sin(latdiffrad/2) + math.cos(lastlatrad) * math.cos(liclatrad) * math.sin(londiffrad/2) * math.sin(londiffrad/2)
         c = 2 * math.atan2(math.sqrt(a),math.sqrt(1-a))
         pointdist = rm * c
@@ -311,25 +311,25 @@ def convertkmltokmz(carriername):
 
 
 def main(argv=None):
-  print 'Getting SaskTel Data'
-  carrierdata=getsorteddata('../site_data.csv','sasktel')
-  print 'Writing SaskTel KML File'
+  print('Getting SaskTel Data')
+  carrierdata=getsorteddata('../Site_Data_Extract.csv','sasktel')
+  print('Writing SaskTel KML File')
   genkmlfile('sasktel',carrierdata,'ffff0000')
-  print 'Converting SaskTel KML to KMZ'
+  print('Converting SaskTel KML to KMZ')
   convertkmltokmz('sasktel')
-  
-  print 'Getting Bell Data'
-  carrierdata=getsorteddata('../site_data.csv','bell ')
-  print 'Writing Bell KML File'
+
+  print('Getting Bell Data')
+  carrierdata=getsorteddata('../Site_Data_Extract.csv','bell ')
+  print('Writing Bell KML File')
   genkmlfile('bell',carrierdata,'ff00ff00')
-  print 'Converting BELL KML to KMZ'
+  print('Converting BELL KML to KMZ')
   convertkmltokmz('bell')
 
-  print 'Getting Telus Data'
-  carrierdata=getsorteddata('../site_data.csv','telus')
-  print 'Writing Telus KML File'
+  print('Getting Telus Data')
+  carrierdata=getsorteddata('../Site_Data_Extract.csv','telus')
+  print('Writing Telus KML File')
   genkmlfile('telus',carrierdata,'ff0000ff')
-  print 'Converting Telus KML to KMZ'
+  print('Converting Telus KML to KMZ')
   convertkmltokmz('telus')
 
 main()
