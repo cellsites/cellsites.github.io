@@ -183,19 +183,37 @@ def calcgridsquares(latnumstr,lonnumstr):
 
   return gridsquare
 
+def s_to_f(s):
+  """
+  Converts a string to a float. If the string cannot be converted
+  (e.g., it's empty, "null", or non-numeric), returns None.
+  """
+  if s is None:  # Explicitly handle None input
+    s='0'
+  s_stripped = str(s).strip() # Convert to string and remove leading/trailing whitespace
+
+  if not s_stripped: # Handle empty string after stripping
+    s='0'
+
+  try:
+    return float(s_stripped)
+  except ValueError:
+    # Handle cases where float() conversion fails (e.g., "null", "abc")
+    return float("0")
+
 def getsorteddata(datafile,filterword):
   unsorteddata=[]
 
-  with open(datafile, 'rt', encoding='latin-1') as csvfile:
-    reader = csv.reader(csvfile, quotechar='"')
+  with open(datafile, 'rt', encoding='utf-8-sig') as csvfile:
+    reader = csv.DictReader(csvfile, quotechar='"', dialect='excel')
     for row in reader:
-      if filterword in ' '.join(row).lower():
-        liclat = row[13]
-        liclon = row[14]
+      if filterword in row['licensee_name*'].lower():
+        liclat = row['latitude']
+        liclon = row['longitude']
         gridsquare = calcgridsquares(liclat,liclon)
-        unsorteddata.append([row[6],row[7],row[11],row[13],row[14],row[25],row[15],row[16],row[21],row[5],row[31],row[32],gridsquare])
+        unsorteddata.append([row['tx_frequency'],row['rx_frequency'],row['location'],row['latitude'],row['longitude'],row['tx_ant_azimuth'],row['structure_height'],row['tx_ant_height'],row['class_emission'],row['technology'],row['date_last_changed'],row['upload_date*'],gridsquare])
 
-  return sorted(unsorteddata, key=lambda x: (x[12],float(x[3]),float(x[4]),float(x[0]),x[1],x[5]))
+  return sorted(unsorteddata, key=lambda x: (x[12],s_to_f(x[3]),s_to_f(x[4]),s_to_f(x[0]),x[1],x[5]))
 
 def genkmlfile(carriername,sorteddata,iconcolor):
   lastlat='_first_'
@@ -312,21 +330,21 @@ def convertkmltokmz(carriername):
 
 def main(argv=None):
   print('Getting SaskTel Data')
-  carrierdata=getsorteddata('../Site_Data_Extract.csv','sasktel')
+  carrierdata=getsorteddata('../Site_Data_Extract_FX.csv','sask')
   print('Writing SaskTel KML File')
   genkmlfile('sasktel',carrierdata,'ffff0000')
   print('Converting SaskTel KML to KMZ')
   convertkmltokmz('sasktel')
 
   print('Getting Bell Data')
-  carrierdata=getsorteddata('../Site_Data_Extract.csv','bell ')
+  carrierdata=getsorteddata('../Site_Data_Extract_FX.csv','bell ')
   print('Writing Bell KML File')
   genkmlfile('bell',carrierdata,'ff00ff00')
   print('Converting BELL KML to KMZ')
   convertkmltokmz('bell')
 
   print('Getting Telus Data')
-  carrierdata=getsorteddata('../Site_Data_Extract.csv','telus')
+  carrierdata=getsorteddata('../Site_Data_Extract_FX.csv','telus')
   print('Writing Telus KML File')
   genkmlfile('telus',carrierdata,'ff0000ff')
   print('Converting Telus KML to KMZ')
