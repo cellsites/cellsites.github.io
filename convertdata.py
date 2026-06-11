@@ -343,12 +343,12 @@ def main(argv=None):
   print('Converting BELL KML to KMZ')
   convertkmltokmz('bell')
 
-  print('Getting Telus Data')
-  carrierdata=getsorteddata('../Site_Data_Extract_FX.csv','telus')
-  print('Writing Telus KML File')
-  genkmlfile('telus',carrierdata,'ff0000ff')
-  print('Converting Telus KML to KMZ')
-  convertkmltokmz('telus')
+  print('Getting Rogers Data')
+  carrierdata=getsorteddata('../Site_Data_Extract_FX.csv','rogers')
+  print('Writing Rogers KML File')
+  genkmlfile('rogers',carrierdata,'ff0000ff')
+  print('Converting Rogers KML to KMZ')
+  convertkmltokmz('rogers')
 
 main()
 
